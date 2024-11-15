@@ -1,0 +1,140 @@
+/* General container styling */
+.journalist-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f9f9f9;
+    color: #007BFF;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Heading style */
+h1 {
+    text-align: center;
+    color: #4caf50;
+}
+
+/* Input container styling (Title, Content, Add button in one row) */
+.input-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    align-items: flex-start;
+}
+
+/* Style for input fields and textarea */
+.input-container input,
+.input-container textarea {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #007BFF;
+    border-radius: 5px;
+    width: 30%;
+}
+
+/* Title and content-specific styling */
+.title-input {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.content-input {
+    font-size: 14px;
+    height: 60px;
+}
+
+/* Add button styling */
+.add-btn {
+    padding: 6px 18px;
+    font-size: 14px;
+    background-color: #000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-btn:hover {
+    background-color: #333;
+}
+
+/* Newspaper container styling (below input fields) */
+.newspapers-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Newspaper entry styling */
+.newspaper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 90%; /* Slightly wider, giving enough space for columns */
+    max-width: 800px; /* Max width for larger screens */
+}
+
+/* Title, content, and button columns */
+.newspaper-left {
+    flex: 2; /* Title column */
+    display: flex;
+    flex-direction: column;
+    padding-right: 10px;
+    justify-content: center;
+}
+
+.newspaper-middle {
+    flex: 4; /* Content column */
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+    justify-content: center;
+}
+
+.newspaper-right {
+    flex: 1; /* Button column */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Title and content text styling */
+.newspaper-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.newspaper-content {
+    font-size: 12px;
+    margin: 10px 0;
+    max-height: 100px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+/* Delete button styling */
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    min-width: 90px;
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f;
+}
+
+.delete-btn:focus {
+    outline: none;
+}
