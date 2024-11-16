@@ -26,9 +26,6 @@ const ReadTableHelper = ({ selectedTable }) => {
           // Fetch data (rows) for the selected table with pagination
           const dataResponse = await getTableData(selectedTable, page, rowsPerPage);
 
-          // Log the data response to check structure
-          console.log("Arpit dataresponse:", dataResponse);  // Check API response structure
-
           // Safely handle the response, focusing on `results` for rows, and `total` for total rows
           const rowsData = dataResponse?.data?.results || []; // Use `results` instead of `rows`
           setRows(rowsData);

@@ -59,3 +59,19 @@ export const getTableData = (tableName, page, limit) => {
   });
 };
 
+export const getPrimaryKeyField = (tableName) => {
+  return axios.get(`${API_URL}/primaryKey/${tableName}`);
+};
+
+// Function to get a record by primary key
+export const getRecordByPrimaryKey = (tableName, primaryKeyField, primaryKeyValue) => {
+  return axios.get(`${API_URL}/${tableName}/${primaryKeyField}/${primaryKeyValue}`);
+};
+
+export const updateRecord = (tableName, primaryKeyField, primaryKeyValue, updatedData) => {
+  return axios.put(`${API_URL}/${tableName}/${primaryKeyField}/${primaryKeyValue}`, updatedData);
+};
+
+export const deleteRecord = (tableName, primaryKeyField, primaryKeyValue) => {
+  return axios.delete(`${API_URL}/${tableName}/${primaryKeyField}/${primaryKeyValue}`);
+};

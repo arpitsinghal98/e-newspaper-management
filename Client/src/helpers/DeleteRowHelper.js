@@ -1,21 +1,76 @@
-import React from "react";
-import { deleteRow } from "../services/api"; // Assume you have a function to delete a row
-import "../styles/DeleteRowHelper.css"; // Import the CSS for this component
+import React, { useState } from 'react';
+import { deleteRecord, getPrimaryKeyField } from '../services/api'; // Assuming you have this API function
+import "../styles/DeleteRowHelper.css";
 
-const DeleteRowHelper = ({ selectedTable, rowId, onDeleteSuccess }) => {
-  const handleDelete = async () => {
+const DeleteRowHelper = ({ selectedTable }) => {
+  const [primaryKeyField, setPrimaryKeyField] = useState(""); // Store the primary key field name
+  const [primaryKey, setPrimaryKey] = useState(""); // Store the entered primary key
+  const [loading, setLoading] = useState(false); // Loading state
+  const [error, setError] = useState(null); // Error handling state
+  const [successMessage, setSuccessMessage] = useState(""); // Success message
+
+  // Function to fetch the primary key field name for the selected table
+  const fetchPrimaryKeyField = async () => {
     try {
-      await deleteRow(selectedTable, rowId); // Delete the row from the table
-      onDeleteSuccess(); // Callback to parent component on successful deletion
+      const response = await getPrimaryKeyField(selectedTable); // API call to fetch the primary key field name
+      setPrimaryKeyField(response.data.primaryKeyField);
     } catch (error) {
-      console.error("Error deleting row:", error);
+      console.error('Error fetching primary key field:', error);
+      setError('Error fetching primary key field');
+    }
+  };
+
+  // Call fetchPrimaryKeyField when selectedTable changes
+  React.useEffect(() => {
+    if (selectedTable) {
+      fetchPrimaryKeyField();
+    }
+  }, [selectedTable]);
+
+  // Handle delete operation
+  const handleDeleteRecord = async () => {
+    if (!primaryKey) {
+      setError('Please enter a primary key');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // Call the delete API function with the table, primary key field, and the primary key value
+      await deleteRecord(selectedTable, primaryKeyField, primaryKey);
+      setSuccessMessage('Record deleted successfully!');
+      setError(null);
+      setPrimaryKey(""); // Reset the primary key field after successful delete
+    } catch (error) {
+      setError('Error deleting record. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="delete-row">
-      <h3>Delete Row from {selectedTable} Table</h3>
-      <button onClick={handleDelete}>Delete Row</button>
+    <div className="delete-row-helper">
+      <h3>Delete Record for Table: {selectedTable}</h3>
+
+      {/* Primary Key Field */}
+      {primaryKeyField && (
+        <div>
+          <label>{primaryKeyField}:</label>
+          <input
+            type="text"
+            value={primaryKey}
+            onChange={(e) => setPrimaryKey(e.target.value)}
+            placeholder={`Enter ${primaryKeyField}`}
+          />
+          <button onClick={handleDeleteRecord} disabled={loading}>
+            {loading ? 'Deleting...' : 'Delete Record'}
+          </button>
+        </div>
+      )}
+
+      {/* Display success or error messages */}
+      {error && <div className="error">{error}</div>}
+      {successMessage && <div className="success">{successMessage}</div>}
     </div>
   );
 };

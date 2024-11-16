@@ -1,50 +1,144 @@
-.update-table {
-    padding: 20px;
-    background-color: #f1f3f8;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Container Styles */
+.update-table-helper {
+  width: 80%;
+  margin: 2rem auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.update-table-helper h3 {
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Form Styles */
+.update-table-helper form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.update-table-helper label {
+  font-size: 16px;
+  color: #333;
+}
+
+.update-table-helper input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.update-table-helper button {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.update-table-helper button:hover {
+  background-color: #45a049;
+}
+
+.update-table-helper button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Error and Loading Messages */
+.error {
+  color: #d9534f;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.loading {
+  font-size: 16px;
+  color: #007bff;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Primary Key Input Styles */
+.update-table-helper #primaryKey {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: calc(100% - 120px); /* Adjust for the fetch button */
+  display: inline-block;
+}
+
+.update-table-helper button.fetch-record {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  display: inline-block;
+  margin-left: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.update-table-helper button.fetch-record:hover {
+  background-color: #0056b3;
+}
+
+.update-table-helper button.fetch-record:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .update-table-helper {
+    width: 95%;
+    padding: 15px;
   }
-  
-  .update-table h3 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-    font-weight: 600;
+
+  .update-table-helper form {
+    gap: 10px;
   }
-  
-  .update-table .form-group {
-    margin-bottom: 20px;
+
+  .update-table-helper button {
+    padding: 8px 16px;
+    font-size: 14px;
   }
-  
-  .update-table label {
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 8px;
+
+  .update-table-helper input[type="text"] {
+    font-size: 14px;
   }
-  
-  .update-table input {
-    width: 100%;
-    padding: 14px;
-    font-size: 16px;
-    background-color: #fff;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    box-sizing: border-box;
+
+  .update-table-helper #primaryKey {
+    font-size: 14px;
+    width: calc(100% - 100px);
   }
-  
-  .update-table button {
-    background-color: #007bff;
-    color: white;
-    font-size: 18px;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+
+  .update-table-helper button.fetch-record {
+    padding: 8px 16px;
+    font-size: 14px;
   }
-  
-  .update-table button:hover {
-    background-color: #0056b3;
-  }
-  
+}

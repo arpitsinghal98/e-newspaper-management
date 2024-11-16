@@ -870,5 +870,116 @@ router.get('/tables/:tableName', (req, res) => {
   });
 });
 
+router.get('/primaryKey/:tableName', (req, res) => {
+  const { tableName } = req.params;
+
+  // Query to get the primary key from the table
+  db.query(
+    `SHOW KEYS FROM ?? WHERE Key_name = 'PRIMARY'`, 
+    [tableName], 
+    (err, results) => {
+      if (err) {
+        console.error('Error fetching primary key:', err);
+        return res.status(500).send("Error fetching primary key");
+      }
+
+      // If primary key exists, send it as response
+      if (results.length > 0) {
+        // The primary key column name is in the 'Column_name' field of the result
+        const primaryKeyField = results[0].Column_name;
+        res.json({ primaryKeyField });
+      } else {
+        // No primary key found for the table
+        res.status(404).json({ error: 'Primary key not found' });
+      }
+    }
+  );
+});
+
+router.get('/:table/:primaryKeyField/:primaryKeyValue', (req, res) => {
+  const { table, primaryKeyField, primaryKeyValue } = req.params;
+
+  // Query the database to fetch the record based on the dynamic primary key field and value
+  db.query(
+    `SELECT * FROM ?? WHERE ?? = ?`, 
+    [table, primaryKeyField, primaryKeyValue], // Table name, dynamic primary key field and value
+    (err, results) => {
+      if (err) {
+        console.error('Error fetching record:', err);
+        return res.status(500).send('Error fetching record');
+      }
+
+      // If a record is found, return it
+      if (results.length > 0) {
+        return res.json(results[0]); // Send the first matching record
+      } else {
+        // No matching record found
+        return res.status(404).json({ error: 'Record not found' });
+      }
+    }
+  );
+});
+
+router.put('/:table/:primaryKeyField/:primaryKeyValue', (req, res) => {
+  const { table, primaryKeyField, primaryKeyValue } = req.params; // Extract params
+  const updatedData = req.body; // Extract the updated data from the request body
+
+  console.log('Arpit: ', updatedData);
+
+  // Constructing the SQL query dynamically based on updatedData fields
+  const fields = Object.keys(updatedData);
+  const values = Object.values(updatedData);
+
+  // Build the update query
+  let updateQuery = `UPDATE ${table} SET `;
+  fields.forEach((field, index) => {
+    updateQuery += `${field} = ?${index < fields.length - 1 ? ',' : ''} `;
+  });
+  updateQuery += `WHERE ${primaryKeyField} = ?`;
+
+  console.log('Arpit updatequery: ', updateQuery);
+
+  // Execute the query
+  db.query(updateQuery, [...values, primaryKeyValue], (err, results) => {
+    if (err) {
+      console.error('Error updating record:', err);
+      return res.status(500).json({ error: 'Server error' });
+    }
+
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ error: 'Record not found' });
+    }
+
+    return res.json({ message: 'Record updated successfully' });
+  });
+});
+
+
+router.delete('/:table/:primaryKeyField/:primaryKeyValue', async (req, res) => {
+  const { table, primaryKeyField, primaryKeyValue } = req.params;
+
+  try {
+    // Dynamically build the SQL query to delete the row
+    const query = `DELETE FROM ${table} WHERE ${primaryKeyField} = ?`;
+    
+    // Execute the query
+    db.query(query, [primaryKeyValue], (err, results) => {
+      if (err) {
+        console.error('Error deleting record:', err);
+        return res.status(500).json({ error: 'Error deleting record' });
+      }
+
+      if (results.affectedRows > 0) {
+        return res.json({ message: 'Record deleted successfully' });
+      } else {
+        return res.status(404).json({ error: 'Record not found' });
+      }
+    });
+  } catch (error) {
+    console.error('Error deleting record:', error);
+    return res.status(500).json({ error: 'Server error' });
+  }
+});
+
 
 module.exports = router;

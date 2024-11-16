@@ -3,6 +3,8 @@ import "../styles/Query.css"; // Import your CSS file
 import Navbar from "../components/Navbar";
 import CreateRowHelper from "../helpers/CreateRowHelper"; // Import the CreateRowHelper component
 import ReadTableHelper from "../helpers/ReadTableHelper"; // Import the ReadTableHelper component
+import UpdateTableHelper from "../helpers/UpdateTableHelper"; // Import the UpdateTableHelper component
+import DeleteRowHelper from "../helpers/DeleteRowHelper"; // Import DeleteRowHelper component
 import { getTables } from "../services/api"; // Import the getTables function from api.js
 
 function QueryPage() {
@@ -100,15 +102,29 @@ function QueryPage() {
         <ReadTableHelper selectedTable={selectedTable} />
       )}
 
-      {/* You can add similar components for Update, Delete, Advanced Ops, etc. */}
-      {activeOperation === "update" && <div>Update Table Component (Coming Soon)</div>}
-      {activeOperation === "delete" && <div>Delete Row Component (Coming Soon)</div>}
+      {/* Update Table Component */}
+      {activeOperation === "update" && selectedTable && (
+        <UpdateTableHelper selectedTable={selectedTable} />
+      )}
+
+      {/* Delete Row Component */}
+      {activeOperation === "delete" && selectedTable && (
+        <DeleteRowHelper selectedTable={selectedTable} />
+      )}
+
+      {/* Other Operations */}
       {activeOperation === "advanced" && <div>Advanced Operations Component (Coming Soon)</div>}
 
       {/* Add more components for OLAP queries if needed */}
       {activeOperation === "rollup" && <div>Rollup Component (Coming Soon)</div>}
       {activeOperation === "cube" && <div>Cube Component (Coming Soon)</div>}
-      {/* Add other OLAP query components similarly */}
+      {activeOperation === "rank" && <div>Rank Component (Coming Soon)</div>}
+      {activeOperation === "denseRank" && <div>Dense Rank Component (Coming Soon)</div>}
+      {activeOperation === "ntile" && <div>Ntile Component (Coming Soon)</div>}
+      {activeOperation === "firstValue" && <div>First Value Component (Coming Soon)</div>}
+      {activeOperation === "unboundedPreceding" && <div>Unbounded Preceding Component (Coming Soon)</div>}
+      {activeOperation === "recursive" && <div>Recursive Component (Coming Soon)</div>}
+      {activeOperation === "view" && <div>View Component (Coming Soon)</div>}
     </div>
   );
 }
