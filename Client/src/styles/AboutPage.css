@@ -9,9 +9,9 @@
     top: 0;
     z-index: 1000;
     gap: 1.5rem;
-  }
-  
-  .nav-button {
+}
+
+.nav-button {
     background-color: #555;
     color: white;
     border: none;
@@ -19,35 +19,84 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-  }
-  
-  .nav-button:hover {
+}
+
+.nav-button:hover {
     background-color: #777;
-  }
-  
-  .about-container {
+}
+
+.about-container {
     padding: 2rem;
     margin-top: 5rem; /* Space for the fixed navbar */
     text-align: center;
-  }
-  
-  .team-section {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+.about-container h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 0.5rem;
+}
+
+.about-container p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+    text-align: justify;
+    margin-bottom: 1.5rem;
+}
+
+.team-section {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
     margin-top: 2rem;
-  }
-  
-  .team-member {
-    width: 30%;
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-  
-  .member-photo {
+    gap: 2rem;
+}
+
+.team-member {
     width: 100%;
     max-width: 300px;
+    text-align: center;
+    margin-bottom: 2rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
     border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.member-photo {
+    width: 100%;
+    max-width: 200px;
+    border-radius: 50%;
     margin-bottom: 1rem;
-  }
-  
+    object-fit: cover;
+}
+
+.team-member h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.team-member p {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+#about_group3 {
+    font-size: 1.2rem; /* Slightly larger font for emphasis */
+    line-height: 1.8;
+    color: #555;
+    text-align: center; /* Centers the text horizontally */
+    margin: 1rem auto; /* Adds vertical spacing and centers block horizontally */
+    max-width: 800px; /* Restricts the width for better readability */
+}
