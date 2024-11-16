@@ -8,9 +8,21 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <button className="nav-button" onClick={() => navigate('/')}>Home</button>
-      <button className="nav-button" onClick={() => navigate('/query')}>Query</button>
-      <button className="nav-button" onClick={() => navigate('/about')}>About</button>
+      <button className="nav-button" onClick={() => navigate("/")}>
+        Home
+      </button>
+      <button className="nav-button" onClick={() => navigate("/query")}>
+        Query
+      </button>
+      <button className="nav-button" onClick={() => navigate("/User")}>
+        User
+      </button>
+      <button className="nav-button" onClick={() => navigate("/Journalist")}>
+        Journalist
+      </button>
+      <button className="nav-button" onClick={() => navigate("/about")}>
+        About
+      </button>
     </nav>
   );
 };
