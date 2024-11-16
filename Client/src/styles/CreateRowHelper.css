@@ -1,0 +1,116 @@
+/* General styles for the form container */
+.create-row-form {
+    background: linear-gradient(135deg, #f0f4f8, #e8eff5);
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 700px;
+    margin: 20px auto;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: all 0.3s ease-in-out;
+    transform: translateY(0);
+  }
+  
+  /* Smooth transition for hover or focus */
+  .create-row-form:hover {
+    transform: translateY(-3px);
+  }
+  
+  /* Header */
+  .create-row-form h3 {
+    font-size: 28px;
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  
+  /* Form groups */
+  .create-row-form .form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Label styling */
+  .create-row-form label {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  
+  /* Styling for the input fields */
+  .create-row-form input[type="text"],
+  .create-row-form input[type="number"],
+  .create-row-form input[type="date"],
+  .create-row-form input[type="checkbox"] {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Input hover and focus effects */
+  .create-row-form input[type="text"]:hover,
+  .create-row-form input[type="number"]:hover,
+  .create-row-form input[type="date"]:hover {
+    border-color: #007bff;
+  }
+  
+  .create-row-form input[type="text"]:focus,
+  .create-row-form input[type="number"]:focus,
+  .create-row-form input[type="date"]:focus {
+    border-color: #0056b3;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+  }
+  
+  /* Checkbox input style */
+  .create-row-form input[type="checkbox"] {
+    width: auto;
+    margin-right: 12px;
+    vertical-align: middle;
+    transform: scale(1.1);
+  }
+  
+  /* Submit button */
+  .create-row-form button {
+    background-color: #007bff;
+    color: #fff;
+    font-size: 18px;
+    padding: 15px;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  /* Button hover and focus effects */
+  .create-row-form button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+  }
+  
+  /* Mobile responsiveness */
+  @media screen and (max-width: 600px) {
+    .create-row-form {
+      padding: 20px;
+      margin: 10px;
+    }
+  
+    .create-row-form h3 {
+      font-size: 24px;
+    }
+  
+    .create-row-form button {
+      font-size: 16px;
+      padding: 12px;
+    }
+  }  

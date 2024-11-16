@@ -1,45 +1,60 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/Query.css"; // Import your CSS file
 import Navbar from "../components/Navbar";
-import { renderInputFields } from "../helpers/CreateRowHelper";
+import CreateRowHelper from "../helpers/CreateRowHelper"; // Import the CreateRowHelper component
+import ReadTableHelper from "../helpers/ReadTableHelper"; // Import the ReadTableHelper component
+import UpdateTableHelper from "../helpers/UpdateTableHelper"; // Import the UpdateTableHelper component
+import DeleteRowHelper from "../helpers/DeleteRowHelper"; // Import DeleteRowHelper component
+import { getTables } from "../services/api"; // Import the getTables function from api.js
+import AdvancedOps from "../helpers/AdvancedOps"; // Import the AdvancedOps component
+import OlapQueriesHelper from "../helpers/OlapQueriesHelper"; // Import OlapQueriesHelper
 
 function QueryPage() {
-  const [selectedTable, setSelectedTable] = useState("article"); // Default table
-  const [showCreateRow, setShowCreateRow] = useState(false);
-  const [newRowData, setNewRowData] = useState({});
+  const [selectedTable, setSelectedTable] = useState(""); // Default is empty until tables are loaded
+  const [tableNames, setTableNames] = useState([]); // State to store table names
+  const [activeOperation, setActiveOperation] = useState(""); // State to control active operation (which component to display)
 
+  // Fetch table names when the component mounts
+  useEffect(() => {
+    const fetchTableNames = async () => {
+      try {
+        const response = await getTables(); // Use the getTables API function
+        setTableNames(response.data.tables); // Set table names from the backend
+        if (response.data.tables.length > 0) {
+          setSelectedTable(response.data.tables[0]); // Set default table to the first one
+        }
+      } catch (error) {
+        console.error("Error fetching table names:", error);
+      }
+    };
+    fetchTableNames();
+  }, []);
+
+  // Handle table selection change
   const handleTableChange = (event) => {
     setSelectedTable(event.target.value);
-    setShowCreateRow(false); // Hide create row form when table changes
-    setNewRowData({}); // Reset form data
+    setActiveOperation(""); // Reset active operation when table changes
   };
 
-  const handleCreateRowClick = () => {
-    setShowCreateRow(true);
+  // Handle CRUD operation button clicks
+  const handleCrudOperationClick = (operation) => {
+    // Reset activeOperation if switching between CRUD and OLAP operations
+    if (["create", "read", "update", "delete", "advanced"].includes(operation)) {
+      setActiveOperation(operation);
+    }
   };
 
-  const handleInputChange = (event, columnName) => {
-    setNewRowData({
-      ...newRowData,
-      [columnName]: event.target.value,
-    });
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    // Here you would typically make an API call to submit the new row data
-    // For this example, we'll just log the data to the console
-    console.log("New row data:", newRowData);
-
-    // Reset form and hide the create row section
-    setNewRowData({});
-    setShowCreateRow(false);
+  // Handle OLAP operation button clicks
+  const handleOlapOperationClick = (operation) => {
+    // Reset activeOperation if switching between CRUD and OLAP operations
+    if (["rollup", "cube", "rank", "denseRank", "ntile", "firstValue", "unboundedPreceding", "recursive", "view"].includes(operation)) {
+      setActiveOperation(operation);
+    }
   };
 
   return (
     <div className="query-page">
-      <Navbar/>
+      <Navbar />
       <h2>Query Page</h2>
 
       {/* Table Selection */}
@@ -50,58 +65,59 @@ function QueryPage() {
           value={selectedTable}
           onChange={handleTableChange}
         >
-          <option value="article">article</option>
-          <option value="category">category</option>
-          <option value="comments">comments</option>
-          <option value="editor">editor</option>
-          <option value="journalist">journalist</option>
-          <option value="subscription plans">subscription plans</option>
-          <option value="user">user</option>
+          {tableNames.length === 0 ? (
+            <option>Loading tables...</option> // Show loading while fetching tables
+          ) : (
+            tableNames.map((table) => (
+              <option key={table} value={table}>
+                {table}
+              </option>
+            ))
+          )}
         </select>
       </div>
 
       {/* Operations */}
       <div className="operations">
-        <h3>Operations:</h3>
-        <button onClick={handleCreateRowClick}>Create Row</button>
-        <button>Read Table</button>
-        <button>Update Table</button>
-        <button>Delete Row</button>
-        <button>Advanced Ops</button>
+        <h3>CRUD Operations:</h3>
+        <button onClick={() => handleCrudOperationClick("create")}>Create Row</button>
+        <button onClick={() => handleCrudOperationClick("read")}>Read Table</button>
+        <button onClick={() => handleCrudOperationClick("update")}>Update Table</button>
+        <button onClick={() => handleCrudOperationClick("delete")}>Delete Row</button>
+        <button onClick={() => handleCrudOperationClick("advanced")}>Advanced Ops</button>
       </div>
-
-     
 
       {/* OLAP Queries */}
       <div className="olap-queries">
         <h3>OLAP Queries:</h3>
-        <button>Rollup</button>
-        <button>Cube</button>
-        <button>Rank</button>
-        <button>Dense Rank</button>
-        <button>Ntile</button>
-        <button>First Value</button>
-        <button>Unbounded Preceding</button>
-        <button>Recursive</button>
-        <button>View</button>
+        <button onClick={() => handleOlapOperationClick("rollup")}>Rollup</button>
+        <button onClick={() => handleOlapOperationClick("cube")}>Cube</button>
+        <button onClick={() => handleOlapOperationClick("rank")}>Rank</button>
+        <button onClick={() => handleOlapOperationClick("denseRank")}>Dense Rank</button>
+        <button onClick={() => handleOlapOperationClick("ntile")}>Ntile</button>
+        <button onClick={() => handleOlapOperationClick("firstValue")}>First Value</button>
+        <button onClick={() => handleOlapOperationClick("unboundedPreceding")}>Unbounded Preceding</button>
+        <button onClick={() => handleOlapOperationClick("recursive")}>Recursive</button>
+        <button onClick={() => handleOlapOperationClick("view")}>View</button>
       </div>
 
-      {/* Placeholder for Query Display */}
-      <div className="query-results">
-        {/* You can add a table or other elements here to display the query results */}
-        <p>Selected Table: {selectedTable}</p>
-         {/* Create Row Form */}
-      {showCreateRow && (
-        <div>
-        <h3>Create New Row in {selectedTable} Table</h3>
-        {/* ... */}
-        <form onSubmit={handleSubmit}>
-          {renderInputFields(selectedTable, handleInputChange)} {/* Call the helper function */}
-          <button type="submit">Submit</button>
-        </form>
-      </div>
+      {/* Conditional Rendering Based on Active Operation */}
+      {selectedTable && activeOperation && activeOperation !== "rollup" && activeOperation !== "cube" && activeOperation !== "rank" && activeOperation !== "denseRank" && activeOperation !== "ntile" && activeOperation !== "firstValue" && activeOperation !== "unboundedPreceding" && activeOperation !== "recursive" && activeOperation !== "view" && (
+        <>
+          {activeOperation === "create" && <CreateRowHelper selectedTable={selectedTable} />}
+          {activeOperation === "read" && <ReadTableHelper selectedTable={selectedTable} />}
+          {activeOperation === "update" && <UpdateTableHelper selectedTable={selectedTable} />}
+          {activeOperation === "delete" && <DeleteRowHelper selectedTable={selectedTable} />}
+          {activeOperation === "advanced" && <AdvancedOps />}
+        </>
       )}
-      </div>
+
+      {/* OLAP Queries Helper (Triggered directly by QueryPage buttons) */}
+      {selectedTable && activeOperation && (
+        activeOperation === "rollup" || activeOperation === "cube" || activeOperation === "rank" || activeOperation === "denseRank" || activeOperation === "ntile" || activeOperation === "firstValue" || activeOperation === "unboundedPreceding" || activeOperation === "recursive" || activeOperation === "view" ? (
+          <OlapQueriesHelper selectedTable={selectedTable} activeOperation={activeOperation} />
+        ) : null
+      )}
     </div>
   );
 }
