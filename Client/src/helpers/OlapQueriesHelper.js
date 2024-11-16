@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { executeSqlQuery } from '../services/api'; // Assuming this API function is already set up
+// OlapQueriesHelper.jsx
 
-const OlapQueriesHelper = ({ selectedTable }) => {
+import React, { useState, useEffect } from 'react';
+import { executeSqlQuery } from '../services/api';
+import "../styles/OlapQueriesHelper.css";
+
+const OlapQueriesHelper = ({ selectedTable, activeOperation }) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [error, setError] = useState(null);
@@ -57,10 +60,12 @@ const OlapQueriesHelper = ({ selectedTable }) => {
     `,
   };
 
-  // Handle click on OLAP button
-  const handleOlapQueryClick = (operation) => {
-    setQuery(olapQueries[operation]);
-  };
+  // Use effect to trigger query when activeOperation changes
+  useEffect(() => {
+    if (activeOperation && olapQueries[activeOperation]) {
+      setQuery(olapQueries[activeOperation]);
+    }
+  }, [activeOperation, selectedTable]);
 
   // Execute SQL query
   const handleExecuteQuery = async () => {
@@ -83,16 +88,7 @@ const OlapQueriesHelper = ({ selectedTable }) => {
 
   return (
     <div className="olap-queries-container">
-      <h3>OLAP Queries</h3>
-      
-      {/* Buttons to trigger OLAP operations */}
-      <div className="olap-query-buttons">
-        {Object.keys(olapQueries).map((operation) => (
-          <button key={operation} onClick={() => handleOlapQueryClick(operation)}>
-            {operation.charAt(0).toUpperCase() + operation.slice(1)}
-          </button>
-        ))}
-      </div>
+      <h3>OLAP Query Results</h3>
 
       {/* Display selected SQL query */}
       <div className="sql-input-container">

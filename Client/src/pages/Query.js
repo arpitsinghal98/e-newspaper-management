@@ -7,6 +7,7 @@ import UpdateTableHelper from "../helpers/UpdateTableHelper"; // Import the Upda
 import DeleteRowHelper from "../helpers/DeleteRowHelper"; // Import DeleteRowHelper component
 import { getTables } from "../services/api"; // Import the getTables function from api.js
 import AdvancedOps from "../helpers/AdvancedOps"; // Import the AdvancedOps component
+import OlapQueriesHelper from "../helpers/OlapQueriesHelper"; // Import OlapQueriesHelper
 
 function QueryPage() {
   const [selectedTable, setSelectedTable] = useState(""); // Default is empty until tables are loaded
@@ -35,11 +36,20 @@ function QueryPage() {
     setActiveOperation(""); // Reset active operation when table changes
   };
 
-  // Handle the creation of a new row (form submission)
-  const handleCreateRowSubmit = (newRowData) => {
-    console.log("New Row Data:", newRowData);
-    // Here you would typically call an API to create the new row in the database
-    // For now, let's just log it
+  // Handle CRUD operation button clicks
+  const handleCrudOperationClick = (operation) => {
+    // Reset activeOperation if switching between CRUD and OLAP operations
+    if (["create", "read", "update", "delete", "advanced"].includes(operation)) {
+      setActiveOperation(operation);
+    }
+  };
+
+  // Handle OLAP operation button clicks
+  const handleOlapOperationClick = (operation) => {
+    // Reset activeOperation if switching between CRUD and OLAP operations
+    if (["rollup", "cube", "rank", "denseRank", "ntile", "firstValue", "unboundedPreceding", "recursive", "view"].includes(operation)) {
+      setActiveOperation(operation);
+    }
   };
 
   return (
@@ -69,63 +79,45 @@ function QueryPage() {
 
       {/* Operations */}
       <div className="operations">
-        <h3>Operations:</h3>
-        <button onClick={() => setActiveOperation("create")}>Create Row</button>
-        <button onClick={() => setActiveOperation("read")}>Read Table</button>
-        <button onClick={() => setActiveOperation("update")}>Update Table</button>
-        <button onClick={() => setActiveOperation("delete")}>Delete Row</button>
-        <button onClick={() => setActiveOperation("advanced")}>Advanced Ops</button>
+        <h3>CRUD Operations:</h3>
+        <button onClick={() => handleCrudOperationClick("create")}>Create Row</button>
+        <button onClick={() => handleCrudOperationClick("read")}>Read Table</button>
+        <button onClick={() => handleCrudOperationClick("update")}>Update Table</button>
+        <button onClick={() => handleCrudOperationClick("delete")}>Delete Row</button>
+        <button onClick={() => handleCrudOperationClick("advanced")}>Advanced Ops</button>
       </div>
 
       {/* OLAP Queries */}
       <div className="olap-queries">
         <h3>OLAP Queries:</h3>
-        <button onClick={() => setActiveOperation("rollup")}>Rollup</button>
-        <button onClick={() => setActiveOperation("cube")}>Cube</button>
-        <button onClick={() => setActiveOperation("rank")}>Rank</button>
-        <button onClick={() => setActiveOperation("denseRank")}>Dense Rank</button>
-        <button onClick={() => setActiveOperation("ntile")}>Ntile</button>
-        <button onClick={() => setActiveOperation("firstValue")}>First Value</button>
-        <button onClick={() => setActiveOperation("unboundedPreceding")}>Unbounded Preceding</button>
-        <button onClick={() => setActiveOperation("recursive")}>Recursive</button>
-        <button onClick={() => setActiveOperation("view")}>View</button>
+        <button onClick={() => handleOlapOperationClick("rollup")}>Rollup</button>
+        <button onClick={() => handleOlapOperationClick("cube")}>Cube</button>
+        <button onClick={() => handleOlapOperationClick("rank")}>Rank</button>
+        <button onClick={() => handleOlapOperationClick("denseRank")}>Dense Rank</button>
+        <button onClick={() => handleOlapOperationClick("ntile")}>Ntile</button>
+        <button onClick={() => handleOlapOperationClick("firstValue")}>First Value</button>
+        <button onClick={() => handleOlapOperationClick("unboundedPreceding")}>Unbounded Preceding</button>
+        <button onClick={() => handleOlapOperationClick("recursive")}>Recursive</button>
+        <button onClick={() => handleOlapOperationClick("view")}>View</button>
       </div>
 
       {/* Conditional Rendering Based on Active Operation */}
-      {activeOperation === "create" && selectedTable && (
-        <CreateRowHelper
-          selectedTable={selectedTable} // Pass selected table name to CreateRowHelper
-          onSubmit={handleCreateRowSubmit} // Pass submit handler to handle form submission
-        />
+      {selectedTable && activeOperation && activeOperation !== "rollup" && activeOperation !== "cube" && activeOperation !== "rank" && activeOperation !== "denseRank" && activeOperation !== "ntile" && activeOperation !== "firstValue" && activeOperation !== "unboundedPreceding" && activeOperation !== "recursive" && activeOperation !== "view" && (
+        <>
+          {activeOperation === "create" && <CreateRowHelper selectedTable={selectedTable} />}
+          {activeOperation === "read" && <ReadTableHelper selectedTable={selectedTable} />}
+          {activeOperation === "update" && <UpdateTableHelper selectedTable={selectedTable} />}
+          {activeOperation === "delete" && <DeleteRowHelper selectedTable={selectedTable} />}
+          {activeOperation === "advanced" && <AdvancedOps />}
+        </>
       )}
 
-      {activeOperation === "read" && selectedTable && (
-        <ReadTableHelper selectedTable={selectedTable} />
+      {/* OLAP Queries Helper (Triggered directly by QueryPage buttons) */}
+      {selectedTable && activeOperation && (
+        activeOperation === "rollup" || activeOperation === "cube" || activeOperation === "rank" || activeOperation === "denseRank" || activeOperation === "ntile" || activeOperation === "firstValue" || activeOperation === "unboundedPreceding" || activeOperation === "recursive" || activeOperation === "view" ? (
+          <OlapQueriesHelper selectedTable={selectedTable} activeOperation={activeOperation} />
+        ) : null
       )}
-
-      {/* Update Table Component */}
-      {activeOperation === "update" && selectedTable && (
-        <UpdateTableHelper selectedTable={selectedTable} />
-      )}
-
-      {/* Delete Row Component */}
-      {activeOperation === "delete" && selectedTable && (
-        <DeleteRowHelper selectedTable={selectedTable} />
-      )}
-
-      {/* Advanced Operations Component */}
-      {activeOperation === "advanced" && <AdvancedOps />}
-
-      {/* Add more components for OLAP queries if needed */}
-      {activeOperation === "rollup" && <div>Rollup Component (Coming Soon)</div>}
-      {activeOperation === "cube" && <div>Cube Component (Coming Soon)</div>}
-      {activeOperation === "rank" && <div>Rank Component (Coming Soon)</div>}
-      {activeOperation === "denseRank" && <div>Dense Rank Component (Coming Soon)</div>}
-      {activeOperation === "ntile" && <div>Ntile Component (Coming Soon)</div>}
-      {activeOperation === "firstValue" && <div>First Value Component (Coming Soon)</div>}
-      {activeOperation === "unboundedPreceding" && <div>Unbounded Preceding Component (Coming Soon)</div>}
-      {activeOperation === "recursive" && <div>Recursive Component (Coming Soon)</div>}
-      {activeOperation === "view" && <div>View Component (Coming Soon)</div>}
     </div>
   );
 }
