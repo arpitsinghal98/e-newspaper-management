@@ -1,203 +1,120 @@
-/* Navbar centered and larger at the top */
+/* Navbar styling */
 .navbar {
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #333;
-  padding: 2rem;
+  padding: 1rem; /* Reduced padding */
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
   left: 0;
-  gap: 2rem; /* Adds space between the buttons */
+  gap: 1.5rem; /* Adjusted spacing between buttons */
 }
 
-/* Updated Button Styles */
-.btn {
+/* Button styles */
+.nav-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 15rem;
-  height: 4rem;
-  border-radius: 2rem; /* More rounded corners */
-  background-size: 300% 300%;
+  width: 10rem; /* Reduced width */
+  height: 3rem; /* Reduced height */
+  border-radius: 1.5rem; /* Adjusted border radius */
+  background: linear-gradient(137.48deg, #ffdb3b 10%, #fe53bb 45%, #8f51ea 67%, #0044ff 87%);
+  color: #fff;
+  border: none;
   cursor: pointer;
-  backdrop-filter: blur(1rem);
-  transition: 0.5s;
-  animation: gradient_301 5s ease infinite;
-  border: double 4px transparent;
-  background-image: linear-gradient(#212121, #212121),
-    linear-gradient(
-      137.48deg,
-      #ffdb3b 10%,
-      #fe53bb 45%,
-      #8f51ea 67%,
-      #0044ff 87%
-    );
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-  margin: 0; /* Removed margin from individual buttons */
+  transition: transform 0.3s, background 0.5s;
+  font-size: 0.9rem; /* Reduced font size */
 }
 
-/* Add container for stars and glow effects */
-#container-stars {
-  position: absolute;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  backdrop-filter: blur(1rem);
-  border-radius: 5rem;
-  top: 0;
-  left: 0;
+.nav-button:hover {
+  transform: scale(1.05);
 }
 
-/* Stars effect */
-#stars {
-  position: fixed; /* Ensure it stays in place */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1; /* Behind the navbar and buttons */
-  background: transparent;
+.nav-button:active {
+  transform: scale(0.95);
 }
 
-#stars::after {
-  content: "";
-  position: absolute;
-  top: -10rem;
-  left: -100rem;
-  width: 100%;
-  height: 100%;
-  animation: animStarRotate 90s linear infinite;
+/* Hero section */
+.hero-section {
+  margin-top: 16rem; /* Space below the smaller navbar */
+  padding: 2rem;
+  text-align: center;
+  color: black;
 }
 
-#stars::after {
-  background-image: radial-gradient(#ffffff 1px, transparent 1%);
-  background-size: 50px 50px;
+.hero-section h1 {
+  font-size: 2.5rem; /* Slightly smaller heading */
+  margin-bottom: 1rem;
+  color: black;
 }
 
-#stars::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -50%;
-  width: 170%;
-  height: 500%;
-  animation: animStar 60s linear infinite;
+.hero-section p {
+  font-size: 1rem; /* Slightly smaller paragraph */
+  color: #2a2424;
 }
 
-#stars::before {
-  background-image: radial-gradient(#ffffff 1px, transparent 1%);
-  background-size: 50px 50px;
-  opacity: 0.5;
-}
-
-/* Keyframes for star animations */
-@keyframes animStar {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-135rem);
-  }
-}
-
-@keyframes animStarRotate {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0);
-  }
-}
-
-@keyframes gradient_301 {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-@keyframes pulse_3011 {
-  0% {
-    transform: scale(0.75);
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
-  }
-  70% {
-    transform: scale(1);
-    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
-  }
-  100% {
-    transform: scale(0.75);
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-  }
-}
-
-/* Fix for glow circle hover effect */
-#glow {
-  position: absolute;
+/* Info card container */
+.info-cards {
   display: flex;
-  width: 15rem; /* Matches the button width */
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+  gap: 2rem;
 }
 
-.circle {
-  width: 100%;
-  height: 30px;
-  filter: blur(2rem);
-  animation: pulse_3011 4s infinite;
-  z-index: -1;
+/* Individual card styling */
+.card {
+  background-color: #222;
+  padding: 1.5rem; /* Reduced padding */
+  border-radius: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  width: 220px; /* Reduced width */
+  text-align: center;
+  color: #fff;
 }
 
-.circle:nth-of-type(1) {
-  background: rgba(254, 83, 186, 0.636);
+.card h2 {
+  font-size: 1.3rem; /* Slightly smaller heading */
+  margin-bottom: 0.8rem;
 }
 
-.circle:nth-of-type(2) {
-  background: rgba(142, 81, 234, 0.704);
+.card p {
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem; /* Smaller font size */
+  color: #bbb;
 }
 
-.btn:hover #container-stars {
-  z-index: 1;
-  background-color: #212121;
+.card button {
+  background-color: #fe53bb;
+  border: none;
+  color: #fff;
+  padding: 0.4rem 0.8rem; /* Reduced padding */
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.8rem; /* Smaller font size */
+  transition: background-color 0.3s;
 }
 
-.btn:hover {
-  transform: scale(1.1);
+.card button:hover {
+  background-color: #8f51ea;
 }
 
-.btn:active {
-  border: double 4px #fe53bb;
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-  animation: none;
+.card button:active {
+  background-color: #ffdb3b;
+  transform: scale(0.98);
 }
 
-.btn:active .circle {
-  background: #fe53bb;
-}
+/* Responsive design */
+@media (max-width: 768px) {
+  .info-cards {
+    flex-direction: column;
+    align-items: center;
+  }
 
-/* Video Container for Full-Screen Effect */
-.video-container {
-  position: absolute;
-  top: 5rem; /* Pushes the video below the navbar */
-  left: 0;
-  width: 100%;
-  height: calc(100vh - 5rem); /* Ensures the video takes up the rest of the screen */
-  z-index: -1; /* Put the video behind the navbar and buttons */
-}
-
-
-/* Video Element Styling */
-.background-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Makes the video cover the entire container without distortion */
+  .card {
+    width: 90%;
+  }
 }
