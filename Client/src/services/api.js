@@ -75,3 +75,7 @@ export const updateRecord = (tableName, primaryKeyField, primaryKeyValue, update
 export const deleteRecord = (tableName, primaryKeyField, primaryKeyValue) => {
   return axios.delete(`${API_URL}/${tableName}/${primaryKeyField}/${primaryKeyValue}`);
 };
+
+export const executeSqlQuery = (query) => {
+  return axios.post(`${API_URL}/execute-query`, { query });
+};

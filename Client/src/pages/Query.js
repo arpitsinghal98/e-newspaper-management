@@ -6,6 +6,7 @@ import ReadTableHelper from "../helpers/ReadTableHelper"; // Import the ReadTabl
 import UpdateTableHelper from "../helpers/UpdateTableHelper"; // Import the UpdateTableHelper component
 import DeleteRowHelper from "../helpers/DeleteRowHelper"; // Import DeleteRowHelper component
 import { getTables } from "../services/api"; // Import the getTables function from api.js
+import AdvancedOps from "../helpers/AdvancedOps"; // Import the AdvancedOps component
 
 function QueryPage() {
   const [selectedTable, setSelectedTable] = useState(""); // Default is empty until tables are loaded
@@ -112,8 +113,8 @@ function QueryPage() {
         <DeleteRowHelper selectedTable={selectedTable} />
       )}
 
-      {/* Other Operations */}
-      {activeOperation === "advanced" && <div>Advanced Operations Component (Coming Soon)</div>}
+      {/* Advanced Operations Component */}
+      {activeOperation === "advanced" && <AdvancedOps />}
 
       {/* Add more components for OLAP queries if needed */}
       {activeOperation === "rollup" && <div>Rollup Component (Coming Soon)</div>}

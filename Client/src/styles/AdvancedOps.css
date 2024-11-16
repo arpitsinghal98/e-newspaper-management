@@ -1,0 +1,73 @@
+.advanced-ops-container {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .advanced-ops-container h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .sql-input {
+    width: 100%;
+    padding: 10px;
+    font-family: monospace;
+    font-size: 14px;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  
+  .execute-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    display: block;
+    width: 100%;
+  }
+  
+  .execute-button:disabled {
+    background-color: #ddd;
+  }
+  
+  .query-result {
+    margin-top: 20px;
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-radius: 4px;
+  }
+  
+  .query-error {
+    margin-top: 20px;
+    background-color: #fdd;
+    padding: 15px;
+    border-radius: 4px;
+    color: red;
+  }
+  
+  .query-results-table {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .query-results-table th,
+  .query-results-table td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .query-results-table th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+  }
+  

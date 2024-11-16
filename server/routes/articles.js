@@ -982,4 +982,22 @@ router.delete('/:table/:primaryKeyField/:primaryKeyValue', async (req, res) => {
 });
 
 
+router.post('/execute-query', (req, res) => {
+  const { query } = req.body;
+
+  if (!query) {
+    return res.status(400).json({ error: 'Query is required' });
+  }
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      return res.status(500).json({ error: 'Error executing query', message: err.message });
+    }
+    res.json({ results });
+  });
+});
+
+module.exports = router;
+
 module.exports = router;
