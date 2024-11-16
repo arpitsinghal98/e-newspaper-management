@@ -1,246 +1,96 @@
-// helpers.js
+import React, { useState, useEffect } from "react";
+import { getColumns, createRow } from "../services/api"; // Import the createRow API function
+import "../styles/CreateRowHelper.css"; // Import the CSS
 
-export const renderInputFields = (selectedTable, handleInputChange) => {
-    switch (selectedTable) {
-        case "article":
-          return (
-            <div>
-              <div>
-                <label htmlFor="article_id">article_id:</label>
-                <input
-                  type="text"
-                  id="article_id"
-                  onChange={(e) => handleInputChange(e, "article_id")}
-                />
-              </div>
-              <div>
-                <label htmlFor="title">title:</label>
-                <input
-                  type="text"
-                  id="title"
-                  onChange={(e) => handleInputChange(e, "title")}
-                />
-              </div>
-              <div>
-                <label htmlFor="content">content:</label>
-                <textarea
-                  id="content"
-                  onChange={(e) => handleInputChange(e, "content")}
-                />
-              </div>
-              <div>
-                <label htmlFor="published_date">published_date:</label>
-                <input
-                  type="date"
-                  id="published_date"
-                  onChange={(e) => handleInputChange(e, "published_date")}
-                />
-              </div>
-              <div>
-                <label htmlFor="likes">likes:</label>
-                <input
-                  type="number"
-                  id="likes"
-                  onChange={(e) => handleInputChange(e, "likes")}
-                />
-              </div>
-              <div>
-                <label htmlFor="number_of_comments">number_of_comments:</label>
-                <input
-                  type="number"
-                  id="number_of_comments"
-                  onChange={(e) => handleInputChange(e, "number_of_comments")}
-                />
-              </div>
-              <div>
-                <label htmlFor="number_of_views">number_of_views:</label>
-                <input
-                  type="number"
-                  id="number_of_views"
-                  onChange={(e) => handleInputChange(e, "number_of_views")}
-                />
-              </div>
-              <div>
-                <label htmlFor="category_id">category_id:</label>
-                <input
-                  type="number"
-                  id="category_id"
-                  onChange={(e) => handleInputChange(e, "category_id")}
-                />
-              </div>
-              {/* Add other input fields for the article table */}
-            </div>
-          );
-        case "category":
-          return (
-            <div>
-              <div>
-                <label htmlFor="category_id">category_id:</label>
-                <input
-                  type="number"
-                  id="category_id"
-                  onChange={(e) => handleInputChange(e, "category_id")}
-                />
-              </div>
-              <div>
-                <label htmlFor="category_name">category_name:</label>
-                <input
-                  type="text"
-                  id="category_name"
-                  onChange={(e) => handleInputChange(e, "category_name")}
-                />
-              </div>
-              {/* Add other input fields for the category table */}
-            </div>
-          );
-        case "comments":
-          return (
-            <div>
-              <div>
-                <label htmlFor="comment_id">comment_id:</label>
-                <input
-                  type="text"
-                  id="comment_id"
-                  onChange={(e) => handleInputChange(e, "comment_id")}
-                />
-              </div>
-              <div>
-                <label htmlFor="date_posted">date_posted:</label>
-                <input
-                  type="date"
-                  id="date_posted"
-                  onChange={(e) => handleInputChange(e, "date_posted")}
-                />
-              </div>
-              <div>
-                <label htmlFor="content">content:</label>
-                <textarea
-                  id="content"
-                  onChange={(e) => handleInputChange(e, "content")}
-                />
-              </div>
-              <div>
-                <label htmlFor="number_of_likes">number_of_likes:</label>
-                <input
-                  type="number"
-                  id="number_of_likes"
-                  onChange={(e) => handleInputChange(e, "number_of_likes")}
-                />
-              </div>
-              <div>
-                <label htmlFor="number_of_replies">number_of_replies:</label>
-                <input
-                  type="number"
-                  id="number_of_replies"
-                  onChange={(e) => handleInputChange(e, "number_of_replies")}
-                />
-              </div>
-              <div>
-                <label htmlFor="user_id">user_id:</label>
-                <input
-                  type="text"
-                  id="user_id"
-                  onChange={(e) => handleInputChange(e, "user_id")}
-                />
-              </div>
-              <div>
-                <label htmlFor="article_id">article_id:</label>
-                <input
-                  type="text"
-                  id="article_id"
-                  onChange={(e) => handleInputChange(e, "article_id")}
-                />
-              </div>
-              {/* Add other input fields for the comments table */}
-            </div>
-          );
+const CreateRowHelper = ({ selectedTable, onSubmit }) => {
+  const [columns, setColumns] = useState([]); // Store columns of the selected table
+  const [newRowData, setNewRowData] = useState({}); // Store form data for new row
+  const [loading, setLoading] = useState(false); // Loading state
+  const [error, setError] = useState(""); // Error state
 
-          case "editor":
-            return (
-              <div>
-                <div>
-                  <label htmlFor="editor_id">editor_id:</label>
-                  <input
-                    type="text"
-                    id="editor_id"
-                    onChange={(e) => handleInputChange(e, "editor_id")}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="name">name:</label>
-                  <input
-                    type="text"
-                    id="name"
-                    onChange={(e) => handleInputChange(e, "name")}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email">email:</label>
-                  <input
-                    type="email"
-                    id="email"
-                    onChange={(e) => handleInputChange(e, "email")}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="department_name">department_name:</label>
-                  <input
-                    type="text"
-                    id="department_name"
-                    onChange={(e) => handleInputChange(e, "department_name")}
-                  />
-                </div>
-              </div>
-            );
-      
-          case "journalist":
-            return (
-              <div>
-                <div>
-                  <label htmlFor="journalist_id">journalist_id:</label>
-                  <input
-                    type="text"
-                    id="journalist_id"
-                    onChange={(e) => handleInputChange(e, "journalist_id")}
-                  />
-                </div>
-                {/* ... other input fields for journalist table ... */}
-              </div>
-            );
-      
-          case "subscription plans":
-            return (
-              <div>
-                <div>
-                  <label htmlFor="plan_id">plan_id:</label>
-                  <input
-                    type="text"
-                    id="plan_id"
-                    onChange={(e) => handleInputChange(e, "plan_id")}
-                  />
-                </div>
-                {/* ... other input fields for subscription plans table ... */}
-              </div>
-            );
-      
-          case "user":
-            return (
-              <div>
-                <div>
-                  <label htmlFor="user_id">user_id:</label>
-                  <input
-                    type="text"
-                    id="user_id"
-                    onChange={(e) => handleInputChange(e, "user_id")}
-                  />
-                </div>
-                {/* ... other input fields for user table ... */}
-              </div>
-            );
+  // Fetch columns when selectedTable changes
+  useEffect(() => {
+    const fetchColumns = async () => {
+      try {
+        const response = await getColumns(selectedTable);
+        setColumns(response.data.columns);
+      } catch (error) {
+        console.error("Error fetching columns:", error);
+      }
+    };
 
-        
-        // Add cases for other tables (editor, journalist, etc.)
-        default:
-          return null;
+    if (selectedTable) {
+      fetchColumns();
+    }
+  }, [selectedTable]);
+
+  // Handle input changes
+  const handleInputChange = (event, columnName) => {
+    setNewRowData({
+      ...newRowData,
+      [columnName]: event.target.value,
+    });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true); // Set loading to true during API call
+    setError(""); // Reset error
+
+    try {
+      // Call the API to create the row
+      await createRow(selectedTable, newRowData);
+      alert("Row created successfully!"); // You can show a success message or redirect
+      setNewRowData({}); // Reset the form after submission
+    } catch (err) {
+      console.error("Error creating row:", err);
+      setError("Failed to create row. Please try again later."); // Set error message
+    } finally {
+      setLoading(false); // Set loading to false after API call
     }
   };
+
+  // Render input fields for each column
+  const renderInputField = (column) => {
+    const { column_name, data_type } = column;
+
+    let inputType = "text"; // Default to text
+    if (data_type.includes("int") || data_type.includes("integer")) {
+      inputType = "number";
+    } else if (data_type.includes("date") || data_type.includes("timestamp")) {
+      inputType = "date";
+    } else if (data_type.includes("boolean")) {
+      inputType = "checkbox";
+    }
+
+    return (
+      <div key={column_name} className="form-group">
+        <label htmlFor={column_name}>{column_name}</label>
+        <input
+          type={inputType}
+          id={column_name}
+          name={column_name}
+          value={newRowData[column_name] || ""}
+          onChange={(event) => handleInputChange(event, column_name)}
+          required
+        />
+      </div>
+    );
+  };
+
+  return (
+    <div className="create-row-form">
+      <h3>Create New Row in {selectedTable} Table</h3>
+      <form onSubmit={handleSubmit}>
+        {columns.map((column) => renderInputField(column))}
+        <button type="submit" disabled={loading}>
+          {loading ? "Submitting..." : "Submit"}
+        </button>
+        {error && <p className="error-message">{error}</p>} {/* Display error message */}
+      </form>
+    </div>
+  );
+};
+
+export default CreateRowHelper;

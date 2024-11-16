@@ -1,45 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/Query.css"; // Import your CSS file
 import Navbar from "../components/Navbar";
-import { renderInputFields } from "../helpers/CreateRowHelper";
+import CreateRowHelper from "../helpers/CreateRowHelper"; // Import the CreateRowHelper component
+import ReadTableHelper from "../helpers/ReadTableHelper"; // Import the ReadTableHelper component
+import { getTables } from "../services/api"; // Import the getTables function from api.js
 
 function QueryPage() {
-  const [selectedTable, setSelectedTable] = useState("article"); // Default table
-  const [showCreateRow, setShowCreateRow] = useState(false);
-  const [newRowData, setNewRowData] = useState({});
+  const [selectedTable, setSelectedTable] = useState(""); // Default is empty until tables are loaded
+  const [tableNames, setTableNames] = useState([]); // State to store table names
+  const [activeOperation, setActiveOperation] = useState(""); // State to control active operation (which component to display)
 
+  // Fetch table names when the component mounts
+  useEffect(() => {
+    const fetchTableNames = async () => {
+      try {
+        const response = await getTables(); // Use the getTables API function
+        setTableNames(response.data.tables); // Set table names from the backend
+        if (response.data.tables.length > 0) {
+          setSelectedTable(response.data.tables[0]); // Set default table to the first one
+        }
+      } catch (error) {
+        console.error("Error fetching table names:", error);
+      }
+    };
+    fetchTableNames();
+  }, []);
+
+  // Handle table selection change
   const handleTableChange = (event) => {
     setSelectedTable(event.target.value);
-    setShowCreateRow(false); // Hide create row form when table changes
-    setNewRowData({}); // Reset form data
+    setActiveOperation(""); // Reset active operation when table changes
   };
 
-  const handleCreateRowClick = () => {
-    setShowCreateRow(true);
-  };
-
-  const handleInputChange = (event, columnName) => {
-    setNewRowData({
-      ...newRowData,
-      [columnName]: event.target.value,
-    });
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    // Here you would typically make an API call to submit the new row data
-    // For this example, we'll just log the data to the console
-    console.log("New row data:", newRowData);
-
-    // Reset form and hide the create row section
-    setNewRowData({});
-    setShowCreateRow(false);
+  // Handle the creation of a new row (form submission)
+  const handleCreateRowSubmit = (newRowData) => {
+    console.log("New Row Data:", newRowData);
+    // Here you would typically call an API to create the new row in the database
+    // For now, let's just log it
   };
 
   return (
     <div className="query-page">
-      <Navbar/>
+      <Navbar />
       <h2>Query Page</h2>
 
       {/* Table Selection */}
@@ -50,58 +52,63 @@ function QueryPage() {
           value={selectedTable}
           onChange={handleTableChange}
         >
-          <option value="article">article</option>
-          <option value="category">category</option>
-          <option value="comments">comments</option>
-          <option value="editor">editor</option>
-          <option value="journalist">journalist</option>
-          <option value="subscription plans">subscription plans</option>
-          <option value="user">user</option>
+          {tableNames.length === 0 ? (
+            <option>Loading tables...</option> // Show loading while fetching tables
+          ) : (
+            tableNames.map((table) => (
+              <option key={table} value={table}>
+                {table}
+              </option>
+            ))
+          )}
         </select>
       </div>
 
       {/* Operations */}
       <div className="operations">
         <h3>Operations:</h3>
-        <button onClick={handleCreateRowClick}>Create Row</button>
-        <button>Read Table</button>
-        <button>Update Table</button>
-        <button>Delete Row</button>
-        <button>Advanced Ops</button>
+        <button onClick={() => setActiveOperation("create")}>Create Row</button>
+        <button onClick={() => setActiveOperation("read")}>Read Table</button>
+        <button onClick={() => setActiveOperation("update")}>Update Table</button>
+        <button onClick={() => setActiveOperation("delete")}>Delete Row</button>
+        <button onClick={() => setActiveOperation("advanced")}>Advanced Ops</button>
       </div>
-
-     
 
       {/* OLAP Queries */}
       <div className="olap-queries">
         <h3>OLAP Queries:</h3>
-        <button>Rollup</button>
-        <button>Cube</button>
-        <button>Rank</button>
-        <button>Dense Rank</button>
-        <button>Ntile</button>
-        <button>First Value</button>
-        <button>Unbounded Preceding</button>
-        <button>Recursive</button>
-        <button>View</button>
+        <button onClick={() => setActiveOperation("rollup")}>Rollup</button>
+        <button onClick={() => setActiveOperation("cube")}>Cube</button>
+        <button onClick={() => setActiveOperation("rank")}>Rank</button>
+        <button onClick={() => setActiveOperation("denseRank")}>Dense Rank</button>
+        <button onClick={() => setActiveOperation("ntile")}>Ntile</button>
+        <button onClick={() => setActiveOperation("firstValue")}>First Value</button>
+        <button onClick={() => setActiveOperation("unboundedPreceding")}>Unbounded Preceding</button>
+        <button onClick={() => setActiveOperation("recursive")}>Recursive</button>
+        <button onClick={() => setActiveOperation("view")}>View</button>
       </div>
 
-      {/* Placeholder for Query Display */}
-      <div className="query-results">
-        {/* You can add a table or other elements here to display the query results */}
-        <p>Selected Table: {selectedTable}</p>
-         {/* Create Row Form */}
-      {showCreateRow && (
-        <div>
-        <h3>Create New Row in {selectedTable} Table</h3>
-        {/* ... */}
-        <form onSubmit={handleSubmit}>
-          {renderInputFields(selectedTable, handleInputChange)} {/* Call the helper function */}
-          <button type="submit">Submit</button>
-        </form>
-      </div>
+      {/* Conditional Rendering Based on Active Operation */}
+      {activeOperation === "create" && selectedTable && (
+        <CreateRowHelper
+          selectedTable={selectedTable} // Pass selected table name to CreateRowHelper
+          onSubmit={handleCreateRowSubmit} // Pass submit handler to handle form submission
+        />
       )}
-      </div>
+
+      {activeOperation === "read" && selectedTable && (
+        <ReadTableHelper selectedTable={selectedTable} />
+      )}
+
+      {/* You can add similar components for Update, Delete, Advanced Ops, etc. */}
+      {activeOperation === "update" && <div>Update Table Component (Coming Soon)</div>}
+      {activeOperation === "delete" && <div>Delete Row Component (Coming Soon)</div>}
+      {activeOperation === "advanced" && <div>Advanced Operations Component (Coming Soon)</div>}
+
+      {/* Add more components for OLAP queries if needed */}
+      {activeOperation === "rollup" && <div>Rollup Component (Coming Soon)</div>}
+      {activeOperation === "cube" && <div>Cube Component (Coming Soon)</div>}
+      {/* Add other OLAP query components similarly */}
     </div>
   );
 }

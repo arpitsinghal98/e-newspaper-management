@@ -1,0 +1,30 @@
+.delete-row {
+    padding: 20px;
+    background-color: #f9e3e3;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+  
+  .delete-row h3 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  
+  .delete-row button {
+    background-color: #ff5e5e;
+    color: white;
+    font-size: 18px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .delete-row button:hover {
+    background-color: #e04e4e;
+  }
+  

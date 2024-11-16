@@ -4,13 +4,6 @@ const router = express.Router();
 const db = require('../config/db');
 
 // ---------------------- Article Routes ----------------------
-// router.get('/articles', (req, res) => {
-//   db.query('SELECT * FROM Article', (err, results) => {
-//     if (err) throw err;
-//     res.json(results);
-//   });
-// });
-
 router.get('/articles', (req, res) => {
   // Parse page and limit from query params, defaulting to 1 and 10 if not provided
   const page = parseInt(req.query.page) || 1;
@@ -180,9 +173,42 @@ router.delete('/categories/:id', (req, res) => {
 
 // ---------------------- Comments Routes ----------------------
 router.get('/comments', (req, res) => {
-  db.query('SELECT * FROM Comments', (err, results) => {
-    if (err) throw err;
-    res.json(results);
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+
+  // Validate that page and limit are positive integers
+  if (page < 1 || limit < 1) {
+    return res.status(400).json({ error: 'Page and limit must be positive integers' });
+  }
+
+  const offset = (page - 1) * limit;
+
+  // Get total count of comments
+  const countQuery = 'SELECT COUNT(*) AS total FROM Comments';
+  db.query(countQuery, (err, countResult) => {
+    if (err) {
+      return res.status(500).json({ error: 'Failed to count comments' });
+    }
+
+    const total = countResult[0].total;
+    const totalPages = Math.ceil(total / limit);
+
+    // Fetch paginated comments
+    const query = 'SELECT * FROM Comments LIMIT ? OFFSET ?';
+    db.query(query, [limit, offset], (err, results) => {
+      if (err) {
+        return res.status(500).json({ error: 'Failed to retrieve comments' });
+      }
+
+      // Return the paginated data along with the total count and total pages
+      res.json({
+        page,
+        limit,
+        total,
+        totalPages,
+        results,
+      });
+    });
   });
 });
 
@@ -721,6 +747,126 @@ router.delete('/write-comment/:user_id/:comment_id', (req, res) => {
     [user_id, comment_id], (err) => {
     if (err) throw err;
     res.json({ message: 'User removed from comment' });
+  });
+});
+
+
+// ---------------------- Get All Table Routes ----------------------
+router.get('/tables', (req, res) => {
+  // SQL query to get all table names
+  const query = 'SHOW TABLES';
+  
+  db.query(query, (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: 'Failed to retrieve tables' });
+    }
+
+    // Extract table names from the result
+    const tableNames = results.map((row) => Object.values(row)[0]);
+    res.json({ tables: tableNames });
+  });
+});
+
+// ---------------------- Get All Table Columns Routes ----------------------
+router.get('/columns/:tableName', (req, res) => {
+  const tableName = req.params.tableName;
+  db.query(`DESCRIBE ${tableName}`, (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error fetching columns");
+    }
+    const columns = results.map((column) => ({
+      column_name: column.Field,
+      data_type: column.Type,
+    }));
+    res.json({ columns });
+  });
+});
+
+
+// ---------------------- Create a New Row Routes ----------------------
+router.post('/create-row/:tableName', (req, res) => {
+  const { tableName } = req.params; // Table name from the URL
+  const newRow = req.body; // New row data from the request body
+
+  // Dynamically build the query
+  const columns = Object.keys(newRow).join(", ");
+  const values = Object.values(newRow)
+    .map(value => (typeof value === "string" ? `'${value}'` : value))
+    .join(", ");
+  
+  const query = `INSERT INTO ${tableName} (${columns}) VALUES (${values})`;
+
+  // Execute the query
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error("Error inserting row:", err);
+      return res.status(500).json({ error: "Failed to insert row" });
+    }
+
+    res.status(201).json({ message: "Row created successfully", insertId: result.insertId });
+  });
+});
+
+// ---------------------- Fetch Data Routes ----------------------
+router.get('/tables/:tableName', (req, res) => {
+  const { tableName } = req.params;  // Get table name from the URL
+  const { page = 1, limit = 10 } = req.query;  // Get page and limit from query params, defaulting to 1 and 10
+
+  // Validate that page and limit are positive integers
+  const pageNumber = parseInt(page, 10);
+  const pageLimit = parseInt(limit, 10);
+
+  if (isNaN(pageNumber) || pageNumber < 1 || isNaN(pageLimit) || pageLimit < 1) {
+    return res.status(400).json({ error: 'Page and limit must be positive integers' });
+  }
+
+  // Calculate the offset for pagination
+  const offset = (pageNumber - 1) * pageLimit;
+
+  // Sanitize the table name to prevent SQL injection (only allow alphanumeric characters and underscores)
+  const sanitizedTableName = tableName.replace(/[^a-zA-Z0-9_]/g, '');
+
+  // Count the total number of rows in the table
+  const countQuery = `SELECT COUNT(*) AS total FROM ${sanitizedTableName}`;
+  
+  db.query(countQuery, (err, countResult) => {
+    if (err) {
+      console.error("Error counting rows:", err);
+      return res.status(500).json({ error: `Failed to count rows in ${sanitizedTableName} table` });
+    }
+    const totalRows = countResult[0].total;
+    const totalPages = Math.ceil(totalRows / pageLimit);
+
+    // If there are no rows in the table, return empty results
+    if (totalRows === 0) {
+      return res.json({
+        page: pageNumber,
+        limit: pageLimit,
+        total: totalRows,
+        totalPages,
+        results: [],
+      });
+    }
+
+    // Fetch the paginated data from the selected table
+    const dataQuery = `SELECT * FROM ${sanitizedTableName} LIMIT ? OFFSET ?`;
+
+    db.query(dataQuery, [pageLimit, offset], (err, dataResult) => {
+      if (err) {
+        console.error("Error fetching data:", err);
+        return res.status(500).json({ error: `Failed to retrieve data from ${sanitizedTableName}` });
+      }
+
+      // Return the paginated results along with total count and total pages
+      res.json({
+        page: pageNumber,
+        limit: pageLimit,
+        total: totalRows,
+        totalPages,
+        results: dataResult,
+      });
+    });
   });
 });
 

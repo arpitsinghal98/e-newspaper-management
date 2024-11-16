@@ -1,0 +1,50 @@
+.update-table {
+    padding: 20px;
+    background-color: #f1f3f8;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+  
+  .update-table h3 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  
+  .update-table .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .update-table label {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 8px;
+  }
+  
+  .update-table input {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+  
+  .update-table button {
+    background-color: #007bff;
+    color: white;
+    font-size: 18px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .update-table button:hover {
+    background-color: #0056b3;
+  }
+  
