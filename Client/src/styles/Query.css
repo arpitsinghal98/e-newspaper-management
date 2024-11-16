@@ -1,0 +1,31 @@
+.query-page {
+    font-family: sans-serif; /* Choose your preferred font */
+    margin-top: 6rem;
+    text-align: center;
+    padding: 2rem;
+    
+  }
+  
+  .table-selection, .operations, .olap-queries {
+    margin-bottom: 20px;
+  }
+  
+  .operations button, .olap-queries button {
+    margin-right: 5px;
+    padding: 8px 12px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .operations button:hover, .olap-queries button:hover {
+    background-color: #ddd;
+  }
+  
+  .query-results {
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+
+  

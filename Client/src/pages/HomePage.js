@@ -1,30 +1,18 @@
 // client/src/pages/HomePage.js
 import React from 'react';
 import '../styles/Homepage.css';
+import Navbar from '../components/Navbar';
 
 const HomePage = () => {
+
   return (
     <div className="main-container">
-      <div className="navbar">
-        <button className="nav-button" onClick={() => window.open('/User', '_blank')}>User</button>
-        <button className="nav-button" onClick={() => window.open('/journalist', '_blank')}>Journalist</button>
-        <button className="nav-button">Writer</button>
-      </div>
+      <Navbar/>
 
-      {/* Video section */}
-      <div className="video-container">
-        <video 
-          className="background-video"
-          autoPlay
-          muted
-          loop
-          playsInline
-        >
-         <source src="/E_Newspaper.mp4" type="video/mp4" />
-
-          Your browser does not support the video tag.
-        </video>
-      </div>
+      <section className="hero-section">
+        <h1>Welcome to E-Newspaper</h1>
+        <p>Explore tailored content for readers, journalists, and writers. Choose your path and discover a unique experience curated just for you.</p>
+      </section>
     </div>
   );
 };
