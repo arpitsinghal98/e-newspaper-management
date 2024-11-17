@@ -4,57 +4,34 @@
   justify-content: center;
   align-items: center;
   background-color: #333;
-  padding: 1rem; /* Reduced padding */
+  padding: 0.5rem 1rem;
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
   left: 0;
-  gap: 1.5rem; /* Adjusted spacing between buttons */
-}
-
-/* Button styles */
-.nav-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 10rem; /* Reduced width */
-  height: 3rem; /* Reduced height */
-  border-radius: 1.5rem; /* Adjusted border radius */
-  background: linear-gradient(137.48deg, #ffdb3b 10%, #fe53bb 45%, #8f51ea 67%, #0044ff 87%);
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.3s, background 0.5s;
-  font-size: 0.9rem; /* Reduced font size */
-}
-
-.nav-button:hover {
-  transform: scale(1.05);
-}
-
-.nav-button:active {
-  transform: scale(0.95);
+  gap: 1.5rem;
+  height: 50px; /* Set a fixed height for the navbar */
 }
 
 /* Hero section */
+/* Hero section */
 .hero-section {
-  margin-top: 16rem; /* Space below the smaller navbar */
-  padding: 2rem;
-  text-align: center;
-  color: black;
+  position: relative; /* To position image */
+  width: 100vw; /* Ensure the section takes up the full width */
+  height: 100vh; /* Ensure the section takes up the full height */
+  overflow: hidden; /* Hide anything that goes outside the viewport */
 }
 
-.hero-section h1 {
-  font-size: 2.5rem; /* Slightly smaller heading */
-  margin-bottom: 1rem;
-  color: black;
+.hero-section img {
+  position: absolute; /* Position the image absolutely inside the section */
+  top: 0;
+  left: 0;
+  width: 100%; /* Stretch the image to cover the full width */
+  height: 100%; /* Stretch the image to cover the full height */
+  object-fit: cover; /* Ensure the image covers the whole section without distortion */
 }
 
-.hero-section p {
-  font-size: 1rem; /* Slightly smaller paragraph */
-  color: #2a2424;
-}
 
 /* Info card container */
 .info-cards {
@@ -68,22 +45,22 @@
 /* Individual card styling */
 .card {
   background-color: #222;
-  padding: 1.5rem; /* Reduced padding */
+  padding: 1.5rem;
   border-radius: 1rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  width: 220px; /* Reduced width */
+  width: 220px;
   text-align: center;
   color: #fff;
 }
 
 .card h2 {
-  font-size: 1.3rem; /* Slightly smaller heading */
+  font-size: 1.3rem;
   margin-bottom: 0.8rem;
 }
 
 .card p {
   margin-bottom: 0.8rem;
-  font-size: 0.9rem; /* Smaller font size */
+  font-size: 0.9rem;
   color: #bbb;
 }
 
@@ -91,10 +68,10 @@
   background-color: #fe53bb;
   border: none;
   color: #fff;
-  padding: 0.4rem 0.8rem; /* Reduced padding */
+  padding: 0.4rem 0.8rem;
   border-radius: 0.5rem;
   cursor: pointer;
-  font-size: 0.8rem; /* Smaller font size */
+  font-size: 0.8rem;
   transition: background-color 0.3s;
 }
 
