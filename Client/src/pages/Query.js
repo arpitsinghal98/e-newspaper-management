@@ -8,6 +8,8 @@ import DeleteRowHelper from "../helpers/DeleteRowHelper"; // Import DeleteRowHel
 import { getTables } from "../services/api"; // Import the getTables function from api.js
 import AdvancedOps from "../helpers/AdvancedOps"; // Import the AdvancedOps component
 import OlapQueriesHelper from "../helpers/OlapQueriesHelper"; // Import OlapQueriesHelper
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faTable, faPen, faTrash, faTasks } from '@fortawesome/free-solid-svg-icons';
 
 function QueryPage() {
   const [selectedTable, setSelectedTable] = useState(""); // Default is empty until tables are loaded
@@ -77,14 +79,24 @@ function QueryPage() {
         </select>
       </div>
 
-      {/* Operations */}
+      {/* CRUD Operations */}
       <div className="operations">
         <h3>CRUD Operations:</h3>
-        <button onClick={() => handleCrudOperationClick("create")}>Create Row</button>
-        <button onClick={() => handleCrudOperationClick("read")}>Read Table</button>
-        <button onClick={() => handleCrudOperationClick("update")}>Update Table</button>
-        <button onClick={() => handleCrudOperationClick("delete")}>Delete Row</button>
-        <button onClick={() => handleCrudOperationClick("advanced")}>Advanced Ops</button>
+        <button onClick={() => handleCrudOperationClick("create")}>
+          <FontAwesomeIcon icon={faPlus} /> Create Row
+        </button>
+        <button onClick={() => handleCrudOperationClick("read")}>
+          <FontAwesomeIcon icon={faTable} /> Read Table
+        </button>
+        <button onClick={() => handleCrudOperationClick("update")}>
+          <FontAwesomeIcon icon={faPen} /> Update Table
+        </button>
+        <button onClick={() => handleCrudOperationClick("delete")}>
+          <FontAwesomeIcon icon={faTrash} /> Delete Row
+        </button>
+        <button onClick={() => handleCrudOperationClick("advanced")}>
+          <FontAwesomeIcon icon={faTasks} /> Advanced Ops
+        </button>
       </div>
 
       {/* OLAP Queries */}

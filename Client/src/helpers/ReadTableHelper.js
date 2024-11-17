@@ -92,25 +92,27 @@ const ReadTableHelper = ({ selectedTable }) => {
             </select>
           </div>
 
-          {/* Table */}
-          <table className="table">
-            <thead>
-              <tr>
-                {columns.map((column) => (
-                  <th key={column.column_name}>{column.column_name}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row, rowIndex) => (
-                <tr key={rowIndex}>
+          {/* Table with Scrollable Container */}
+          <div className="table-container">
+            <table className="table">
+              <thead>
+                <tr>
                   {columns.map((column) => (
-                    <td key={column.column_name}>{row[column.column_name]}</td>
+                    <th key={column.column_name}>{column.column_name}</th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {rows.map((row, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {columns.map((column) => (
+                      <td key={column.column_name}>{row[column.column_name]}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
           {/* Pagination Controls */}
           <div className="pagination">

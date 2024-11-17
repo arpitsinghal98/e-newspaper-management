@@ -1,28 +1,51 @@
-/* client/src/styles/Navbar.css */
+/* Navbar.css */
+
 .navbar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #333;
-    padding: 1rem;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    gap: 1.5rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #333; /* Dark gray background */
+  padding: 10px 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  border-radius: 8px;
+}
+
+.nav-button {
+  background: linear-gradient(90deg, #4e54c8, #8f94fb); /* Neutral blue gradient */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Space between icon and text */
+}
+
+.nav-button:hover {
+  background: linear-gradient(90deg, #3d40b4, #7579e7); /* Darker hover gradient */
+  transform: translateY(-3px); /* Hover lift effect */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Hover shadow */
+}
+
+.nav-button:active {
+  background: linear-gradient(90deg, #2d2fa4, #6266e1); /* Active state gradient */
+  transform: translateY(0); /* Remove lift */
+  box-shadow: none; /* Remove shadow */
+}
+
+.nav-button:focus {
+  outline: 2px solid #d1d9ff; /* Soft blue outline */
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 10px;
   }
-  
-  .nav-button {
-    background-color: #555;
-    color: white;
-    border: none;
-    padding: 0.5rem 1.5rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .nav-button:hover {
-    background-color: #777;
-  }
-  
+}

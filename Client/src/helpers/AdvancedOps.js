@@ -14,7 +14,7 @@ const AdvancedOps = () => {
     setError(null); // Reset errors before execution
     try {
       const response = await executeSqlQuery(sqlQuery); // Call the API function
-      console.log("Response Data:", response.data);  // Debug: log the response
+      console.log("Response Data:", response.data); // Debug: log the response
 
       // Check if the response contains an array of objects
       if (Array.isArray(response.data.results) && response.data.results.length > 0) {
@@ -39,27 +39,29 @@ const AdvancedOps = () => {
     }
 
     // Ensure we are dealing with an array of objects
-    if (results[0] && typeof results[0] === 'object') {
-      const columns = Object.keys(results[0]);  // Get the column names from the first object
+    if (results[0] && typeof results[0] === "object") {
+      const columns = Object.keys(results[0]); // Get the column names from the first object
       return (
-        <table className="query-results-table">
-          <thead>
-            <tr>
-              {columns.map((col, index) => (
-                <th key={index}>{col}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {results.map((row, index) => (
-              <tr key={index}>
-                {columns.map((col, colIndex) => (
-                  <td key={colIndex}>{row[col]}</td>
+        <div className="table-container">
+          <table className="query-results-table">
+            <thead>
+              <tr>
+                {columns.map((col, index) => (
+                  <th key={index}>{col}</th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {results.map((row, index) => (
+                <tr key={index}>
+                  {columns.map((col, colIndex) => (
+                    <td key={colIndex}>{row[col]}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       );
     } else {
       return <p>Invalid result format. Please check your query or try again.</p>;
