@@ -1,3 +1,5 @@
+## CS425 Deliverable-5: Group-3
+
 # E-Newspaper Management System
 
 This repository contains the codebase for the **E-Newspaper Management System**, developed as part of the coursework for **CS425: Database Organization**. This project aims to create a comprehensive online newspaper management platform, incorporating advanced database features, complex SQL queries, and analytics, while showcasing a modern full-stack development approach.
