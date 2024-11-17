@@ -1,10 +1,12 @@
 // server/config/db.js
 const mysql = require("mysql2");
+require("dotenv").config();
+
 const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root", // Replace with your MySQL username
-  password: "", // Replace with your MySQL password
-  database: "E_Newspaper", // Your database name
+  host: process.env.DB_HOST, // Use environment variable
+  user: process.env.DB_USER, // Use environment variable
+  password: process.env.DB_PASSWORD, // Use environment variable
+  database: process.env.DB_NAME, // Use environment variable
 });
 
 connection.connect((err) => {
