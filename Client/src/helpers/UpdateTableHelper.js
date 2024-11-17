@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { getRecordByPrimaryKey, updateRecord, getPrimaryKeyField } from '../services/api'; // Assuming you have this API function
+import React, { useState, useEffect } from "react";
+import {
+  getRecordByPrimaryKey,
+  updateRecord,
+  getPrimaryKeyField,
+} from "../services/api"; // Assuming you have this API function
 import "../styles/UpdateTableHelper.css";
 
 const UpdateTableHelper = ({ selectedTable }) => {
-  const [primaryKeyField, setPrimaryKeyField] = useState(""); // Store the primary key field name
-  const [primaryKey, setPrimaryKey] = useState(""); // Store the entered primary key
-  const [record, setRecord] = useState(null); // Store the fetched record
-  const [updatedData, setUpdatedData] = useState({}); // Store the updated data
-  const [loading, setLoading] = useState(false); // Loading state
-  const [error, setError] = useState(null); // Error handling state
+  const [primaryKeyField, setPrimaryKeyField] = useState("");
+  const [primaryKey, setPrimaryKey] = useState("");
+  const [record, setRecord] = useState(null);
+  const [updatedData, setUpdatedData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (selectedTable) {
@@ -19,11 +23,11 @@ const UpdateTableHelper = ({ selectedTable }) => {
   // Function to fetch the primary key field name for the selected table
   const fetchPrimaryKeyField = async () => {
     try {
-      const response = await getPrimaryKeyField(selectedTable); // API call to fetch the primary key field name
+      const response = await getPrimaryKeyField(selectedTable);
       setPrimaryKeyField(response.data.primaryKeyField);
     } catch (error) {
-      console.error('Error fetching primary key field:', error);
-      setError('Error fetching primary key field');
+      console.error("Error fetching primary key field:", error);
+      setError("Error fetching primary key field");
     }
   };
 
@@ -31,13 +35,17 @@ const UpdateTableHelper = ({ selectedTable }) => {
   const handleFetchRecord = async () => {
     setLoading(true);
     try {
-      const fetchedRecord = await getRecordByPrimaryKey(selectedTable, primaryKeyField, primaryKey);
-      console.log('Arpit: ', fetchedRecord.data);
+      const fetchedRecord = await getRecordByPrimaryKey(
+        selectedTable,
+        primaryKeyField,
+        primaryKey
+      );
+      console.log("Arpit: ", fetchedRecord.data);
       setRecord(fetchedRecord.data);
-      setUpdatedData(fetchedRecord.data); // Pre-populate the form with fetched record data
+      setUpdatedData(fetchedRecord.data);
       setError(null);
     } catch (error) {
-      setError('Error fetching record. Please check the primary key.');
+      setError("Error fetching record. Please check the primary key.");
     } finally {
       setLoading(false);
     }
@@ -47,18 +55,22 @@ const UpdateTableHelper = ({ selectedTable }) => {
   const handleUpdateRecord = async () => {
     setLoading(true);
     try {
-      const updatedRecord = await updateRecord(selectedTable, primaryKeyField, primaryKey, updatedData);
-      setRecord(updatedRecord); // Optionally update the local state with the updated record
-      alert('Record updated successfully!');
+      const updatedRecord = await updateRecord(
+        selectedTable,
+        primaryKeyField,
+        primaryKey,
+        updatedData
+      );
+      setRecord(updatedRecord);
+      alert("Record updated successfully!");
       setError(null);
-      
+
       // Clear the primary key field, record, and updated data after update
-      setPrimaryKey("");         // Clear the primary key field
-      setRecord(null);           // Clear the record data
-      setUpdatedData({});        // Clear the updated data
-  
+      setPrimaryKey("");
+      setRecord(null);
+      setUpdatedData({});
     } catch (error) {
-      setError('Error updating record. Please try again.');
+      setError("Error updating record. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -88,7 +100,7 @@ const UpdateTableHelper = ({ selectedTable }) => {
             placeholder={`Enter ${primaryKeyField}`}
           />
           <button onClick={handleFetchRecord} disabled={loading}>
-            {loading ? 'Loading...' : 'Fetch Record'}
+            {loading ? "Loading..." : "Fetch Record"}
           </button>
         </div>
       )}
@@ -100,21 +112,26 @@ const UpdateTableHelper = ({ selectedTable }) => {
         <div>
           <h4>Record Details</h4>
           <form>
-            {Object.keys(record).map((key) => (
-              key !== primaryKeyField && ( // Don't show the primary key field here
-                <div key={key}>
-                  <label>{key}:</label>
-                  <input
-                    type="text"
-                    name={key}
-                    value={updatedData[key] || ''}
-                    onChange={handleChange}
-                  />
-                </div>
-              )
-            ))}
-            <button type="button" onClick={handleUpdateRecord} disabled={loading}>
-              {loading ? 'Updating...' : 'Update Record'}
+            {Object.keys(record).map(
+              (key) =>
+                key !== primaryKeyField && (
+                  <div key={key}>
+                    <label>{key}:</label>
+                    <input
+                      type="text"
+                      name={key}
+                      value={updatedData[key] || ""}
+                      onChange={handleChange}
+                    />
+                  </div>
+                )
+            )}
+            <button
+              type="button"
+              onClick={handleUpdateRecord}
+              disabled={loading}
+            >
+              {loading ? "Updating..." : "Update Record"}
             </button>
           </form>
         </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { executeSqlQuery } from "../services/api"; // Your API function
-import "../styles/AdvancedOps.css"; // Assuming the same CSS from your previous request
+import { executeSqlQuery } from "../services/api";
+import "../styles/AdvancedOps.css";
 
 const AdvancedOps = () => {
   const [sqlQuery, setSqlQuery] = useState("");
@@ -11,7 +11,7 @@ const AdvancedOps = () => {
   // Handle SQL query execution
   const handleExecuteQuery = async () => {
     setLoading(true);
-    setError(null); // Reset errors before execution
+    setError(null);
     try {
       const response = await executeSqlQuery(sqlQuery); // Call the API function
       console.log("Response Data:", response.data); // Debug: log the response
@@ -40,7 +40,7 @@ const AdvancedOps = () => {
 
     // Ensure we are dealing with an array of objects
     if (results[0] && typeof results[0] === "object") {
-      const columns = Object.keys(results[0]); // Get the column names from the first object
+      const columns = Object.keys(results[0]); 
       return (
         <div className="table-container">
           <table className="query-results-table">

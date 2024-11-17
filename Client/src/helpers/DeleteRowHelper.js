@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { deleteRecord, getPrimaryKeyField } from '../services/api'; // Assuming you have this API function
+import { deleteRecord, getPrimaryKeyField } from '../services/api';
 import "../styles/DeleteRowHelper.css";
 
 const DeleteRowHelper = ({ selectedTable }) => {
-  const [primaryKeyField, setPrimaryKeyField] = useState(""); // Store the primary key field name
-  const [primaryKey, setPrimaryKey] = useState(""); // Store the entered primary key
-  const [loading, setLoading] = useState(false); // Loading state
-  const [error, setError] = useState(null); // Error handling state
-  const [successMessage, setSuccessMessage] = useState(""); // Success message
+  const [primaryKeyField, setPrimaryKeyField] = useState("");
+  const [primaryKey, setPrimaryKey] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState("");
 
   // Function to fetch the primary key field name for the selected table
   const fetchPrimaryKeyField = async () => {
     try {
-      const response = await getPrimaryKeyField(selectedTable); // API call to fetch the primary key field name
+      const response = await getPrimaryKeyField(selectedTable); 
       setPrimaryKeyField(response.data.primaryKeyField);
     } catch (error) {
       console.error('Error fetching primary key field:', error);
@@ -40,7 +40,7 @@ const DeleteRowHelper = ({ selectedTable }) => {
       await deleteRecord(selectedTable, primaryKeyField, primaryKey);
       setSuccessMessage('Record deleted successfully!');
       setError(null);
-      setPrimaryKey(""); // Reset the primary key field after successful delete
+      setPrimaryKey("");
     } catch (error) {
       setError('Error deleting record. Please try again.');
     } finally {
