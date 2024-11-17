@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Query.css"; // Import your CSS file
 import Navbar from "../components/Navbar";
-import CreateRowHelper from "../helpers/CreateRowHelper"; // Import the CreateRowHelper component
-import ReadTableHelper from "../helpers/ReadTableHelper"; // Import the ReadTableHelper component
-import UpdateTableHelper from "../helpers/UpdateTableHelper"; // Import the UpdateTableHelper component
-import DeleteRowHelper from "../helpers/DeleteRowHelper"; // Import DeleteRowHelper component
-import { getTables } from "../services/api"; // Import the getTables function from api.js
-import AdvancedOps from "../helpers/AdvancedOps"; // Import the AdvancedOps component
-import OlapQueriesHelper from "../helpers/OlapQueriesHelper"; // Import OlapQueriesHelper
+import CreateRowHelper from "../helpers/CreateRowHelper"; 
+import ReadTableHelper from "../helpers/ReadTableHelper"; 
+import UpdateTableHelper from "../helpers/UpdateTableHelper"; 
+import DeleteRowHelper from "../helpers/DeleteRowHelper"; 
+import { getTables } from "../services/api"; 
+import AdvancedOps from "../helpers/AdvancedOps"; 
+import OlapQueriesHelper from "../helpers/OlapQueriesHelper";
 
 function QueryPage() {
-  const [selectedTable, setSelectedTable] = useState(""); // Default is empty until tables are loaded
-  const [tableNames, setTableNames] = useState([]); // State to store table names
-  const [activeOperation, setActiveOperation] = useState(""); // State to control active operation (which component to display)
+  const [selectedTable, setSelectedTable] = useState(""); 
+  const [tableNames, setTableNames] = useState([]); 
+  const [activeOperation, setActiveOperation] = useState(""); 
 
-  // Fetch table names when the component mounts
   useEffect(() => {
     const fetchTableNames = async () => {
       try {
-        const response = await getTables(); // Use the getTables API function
-        setTableNames(response.data.tables); // Set table names from the backend
+        const response = await getTables();
+        setTableNames(response.data.tables);
         if (response.data.tables.length > 0) {
-          setSelectedTable(response.data.tables[0]); // Set default table to the first one
+          setSelectedTable(response.data.tables[0]);
         }
       } catch (error) {
         console.error("Error fetching table names:", error);
@@ -30,23 +29,18 @@ function QueryPage() {
     fetchTableNames();
   }, []);
 
-  // Handle table selection change
   const handleTableChange = (event) => {
     setSelectedTable(event.target.value);
-    setActiveOperation(""); // Reset active operation when table changes
+    setActiveOperation(""); 
   };
 
-  // Handle CRUD operation button clicks
   const handleCrudOperationClick = (operation) => {
-    // Reset activeOperation if switching between CRUD and OLAP operations
     if (["create", "read", "update", "delete", "advanced"].includes(operation)) {
       setActiveOperation(operation);
     }
   };
 
-  // Handle OLAP operation button clicks
   const handleOlapOperationClick = (operation) => {
-    // Reset activeOperation if switching between CRUD and OLAP operations
     if (["rollup", "cube", "rank", "denseRank", "ntile", "firstValue", "unboundedPreceding", "recursive", "view"].includes(operation)) {
       setActiveOperation(operation);
     }
@@ -55,7 +49,12 @@ function QueryPage() {
   return (
     <div className="query-page">
       <Navbar />
-      <h2>Query Page</h2>
+      <h1>Query Page</h1>
+
+      {/* Hero Section for Background Image */}
+      <section className="hero-section">
+        <img src="9.jpg" alt="Hero Image" />
+      </section>
 
       {/* Table Selection */}
       <div className="table-selection">
@@ -66,7 +65,7 @@ function QueryPage() {
           onChange={handleTableChange}
         >
           {tableNames.length === 0 ? (
-            <option>Loading tables...</option> // Show loading while fetching tables
+            <option>Loading tables...</option>
           ) : (
             tableNames.map((table) => (
               <option key={table} value={table}>
@@ -101,23 +100,23 @@ function QueryPage() {
         <button onClick={() => handleOlapOperationClick("view")}>View</button>
       </div>
 
-      {/* Conditional Rendering Based on Active Operation */}
-      {selectedTable && activeOperation && activeOperation !== "rollup" && activeOperation !== "cube" && activeOperation !== "rank" && activeOperation !== "denseRank" && activeOperation !== "ntile" && activeOperation !== "firstValue" && activeOperation !== "unboundedPreceding" && activeOperation !== "recursive" && activeOperation !== "view" && (
-        <>
-          {activeOperation === "create" && <CreateRowHelper selectedTable={selectedTable} />}
-          {activeOperation === "read" && <ReadTableHelper selectedTable={selectedTable} />}
-          {activeOperation === "update" && <UpdateTableHelper selectedTable={selectedTable} />}
-          {activeOperation === "delete" && <DeleteRowHelper selectedTable={selectedTable} />}
-          {activeOperation === "advanced" && <AdvancedOps />}
-        </>
-      )}
-
-      {/* OLAP Queries Helper (Triggered directly by QueryPage buttons) */}
-      {selectedTable && activeOperation && (
-        activeOperation === "rollup" || activeOperation === "cube" || activeOperation === "rank" || activeOperation === "denseRank" || activeOperation === "ntile" || activeOperation === "firstValue" || activeOperation === "unboundedPreceding" || activeOperation === "recursive" || activeOperation === "view" ? (
-          <OlapQueriesHelper selectedTable={selectedTable} activeOperation={activeOperation} />
-        ) : null
-      )}
+      {/* Query Results */}
+      <div className="query-results">
+        {activeOperation === "create" && <CreateRowHelper />}
+        {activeOperation === "read" && <ReadTableHelper tableName={selectedTable} />}
+        {activeOperation === "update" && <UpdateTableHelper tableName={selectedTable} />}
+        {activeOperation === "delete" && <DeleteRowHelper tableName={selectedTable} />}
+        {activeOperation === "advanced" && <AdvancedOps />}
+        {activeOperation === "rollup" && <OlapQueriesHelper operation="rollup" />}
+        {activeOperation === "cube" && <OlapQueriesHelper operation="cube" />}
+        {activeOperation === "rank" && <OlapQueriesHelper operation="rank" />}
+        {activeOperation === "denseRank" && <OlapQueriesHelper operation="denseRank" />}
+        {activeOperation === "ntile" && <OlapQueriesHelper operation="ntile" />}
+        {activeOperation === "firstValue" && <OlapQueriesHelper operation="firstValue" />}
+        {activeOperation === "unboundedPreceding" && <OlapQueriesHelper operation="unboundedPreceding" />}
+        {activeOperation === "recursive" && <OlapQueriesHelper operation="recursive" />}
+        {activeOperation === "view" && <OlapQueriesHelper operation="view" />}
+      </div>
     </div>
   );
 }

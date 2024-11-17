@@ -1,31 +1,196 @@
+/* General Styles */
+body {
+  font-family: sans-serif;
+  color: white; /* Set text color to white */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #f9f9f9;
+}
+
+/* Full Screen Image Section */
+.hero-section {
+  position: fixed; /* Fix it to the entire screen */
+  top: 0;
+  left: 0;
+  width: 100vw; /* Full width of the viewport */
+  height: 100vh; /* Full height of the viewport */
+  z-index: -1; /* Ensure it's behind the content */
+  overflow: hidden; /* Prevent any overflow from the image */
+}
+
+.hero-section img {
+  position: absolute; /* Position the image absolutely */
+  top: 50%; /* Vertically center the image */
+  left: 50%; /* Horizontally center the image */
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure the image covers the full area of the container */
+  transform: translate(-50%, -50%); /* Adjust the position to center the image */
+}
+
+/* Content Container */
 .query-page {
-    font-family: sans-serif; /* Choose your preferred font */
-    margin-top: 6rem;
-    text-align: center;
-    padding: 2rem;
-    
-  }
-  
-  .table-selection, .operations, .olap-queries {
-    margin-bottom: 20px;
-  }
-  
-  .operations button, .olap-queries button {
-    margin-right: 5px;
-    padding: 8px 12px;
-    background-color: #eee;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .operations button:hover, .olap-queries button:hover {
-    background-color: #ddd;
-  }
-  
-  .query-results {
-    border: 1px solid #ccc;
-    padding: 10px;
+  position: relative; /* To stack other content on top of the image */
+  z-index: 1; /* Ensure content is above the background image */
+  padding: 1rem;
+  color: white; /* Set content text to white */
+  margin-bottom: 2rem; /* Add space between sections */
+  margin-bottom: 2rem; /* Add space between Query Page and Select Table */
+}
+
+/* Container for Centering and Constraining Width */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+  margin-bottom: 2rem; /* Add space after the container */
+}
+
+/* Header Styles */
+header {
+  text-align: center;
+  margin-bottom: 2rem; /* Add space below the header */
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white; /* White color for the page title */
+  margin: 0;
+  padding: 1rem 0;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 1.5rem; /* Add space after the title */
+}
+
+/* Table Selection Section */
+.table-selection {
+  margin-bottom: 2rem;
+  text-align: center;
+  margin-top: 1.5rem; /* Add space before table selection */
+}
+
+.table-selection label {
+  font-size: 1.1rem;
+  margin-right: 10px;
+  margin-bottom: 1rem; /* Add space after label */
+}
+
+.operations {
+  margin-bottom: 2rem; /* Add space after the CRUD operations section */
+}
+
+.olap-queries {
+  margin-top: 2rem; /* Add space before OLAP Queries section */
+  margin-bottom: 2rem; /* Add space after OLAP Queries */
+}
+
+/* Dropdown Menu Styles */
+/* Dropdown Styles */
+.dropdown {
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: 2px solid #ccc; /* Slightly thicker border for a more defined look */
+  border-radius: 8px; /* Rounded corners */
+  background-color: #ffffff; /* White background */
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+  width: 100%; /* Make dropdown take up full width of its container */
+  margin-bottom: 1.5rem; /* Space below the dropdown */
+  font-weight: 500; /* Medium font weight */
+  color: #333; /* Dark text for readability */
+}
+
+/* Hover Effect */
+.dropdown:hover {
+  border-color: #888; /* Darker border on hover */
+  box-shadow: 0 4px 8px rgba(136, 136, 136, 0.4); /* Subtle shadow on hover */
+  background-color: #f4f4f4; /* Slight background color change */
+  transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Focus State */
+.dropdown:focus {
+  outline: none;
+  border-color: #555; /* Darker border on focus */
+  box-shadow: 0 0 10px rgba(85, 85, 85, 0.5); /* Stronger focus shadow */
+  background-color: #fafafa; /* Light background on focus */
+}
+
+/* Option Styles (if you have option items) */
+.dropdown option {
+  padding: 10px;
+  font-size: 1rem;
+  background-color: #ffffff;
+  color: #333;
+  border: none;
+}
+
+/* Option Hover */
+.dropdown option:hover {
+  background-color: #f0f0f0;
+}
+
+/* Button Styles */
+.operations button, .olap-queries button {
+  margin-right: 10px;
+  padding: 10px 15px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 1rem;
+  color: black;
+  margin-bottom: 1rem; /* Add space after buttons */
+}
+
+.operations button:hover, .olap-queries button:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-2px);
+}
+
+.operations button:active, .olap-queries button:active {
+  background-color: #d0d0d0;
+  transform: translateY(0);
+}
+
+/* Query Results Section */
+.query-results {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin-top: 2rem;
+  text-align: left;
+  background-color: #fafafa;
+  border-radius: 6px;
+  color: #333;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem; /* Add space after the query results */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .container {
+    padding: 0.5rem;
   }
 
-  
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .operations button, .olap-queries button {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    margin-right: 5px;
+  }
+
+  .dropdown {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .table-selection label {
+    display: block;
+    margin-bottom: 5px;
+  }
+}
