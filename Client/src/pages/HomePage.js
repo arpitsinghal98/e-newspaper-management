@@ -1,11 +1,9 @@
 import React from 'react';
 import '../styles/Homepage.css';
-import Navbar from '../components/Navbar';
 
 const HomePage = () => {
   return (
     <div className="main-container">
-      <Navbar />
       <section className="hero-section">
         <div className="hero-content">
           <h1>Welcome to E-Newspaper</h1>

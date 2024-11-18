@@ -7,7 +7,14 @@
   background-color: #333; /* Dark gray background */
   padding: 10px 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  border-radius: 8px;
+  width: 100%; /* Ensure full width */
+  margin: 0; /* Remove any default margins */
+  border-radius: 0; /* Remove border-radius for edge-to-edge */
+  position: fixed; /* Stick to the top */
+  top: 0; /* Align with the top */
+  left: 0; /* Align with the left */
+  z-index: 1000; /* Keep above content */
+  box-sizing: border-box; /* Include padding in width */
 }
 
 .nav-button {

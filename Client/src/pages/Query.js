@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Query.css"; // Import your CSS file
-import Navbar from "../components/Navbar";
 import CreateRowHelper from "../helpers/CreateRowHelper"; // Import the CreateRowHelper component
 import ReadTableHelper from "../helpers/ReadTableHelper"; // Import the ReadTableHelper component
 import UpdateTableHelper from "../helpers/UpdateTableHelper"; // Import the UpdateTableHelper component
@@ -56,7 +55,6 @@ function QueryPage() {
 
   return (
     <div className="query-page">
-      <Navbar />
       <h2>Query Page</h2>
 
       {/* Table Selection */}
