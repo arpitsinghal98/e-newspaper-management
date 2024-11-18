@@ -17,12 +17,8 @@ const AdvancedOps = () => {
       console.log("Response Data:", response.data); // Debug: log the response
 
       // Check if the response contains an array of objects
-      if (Array.isArray(response.data.results) && response.data.results.length > 0) {
-        setResults(response.data.results); // Set the results from the query
-      } else {
-        setError("Query returned no valid data or an unexpected format.");
-        setResults([]); // Clear previous results
-      }
+      setResults(response.data.results); // Set the results from the query
+      
     } catch (err) {
       console.error("Error executing query:", err);
       setError("Error executing query. Please check your syntax or query.");

@@ -33,10 +33,10 @@ const AboutPage = () => {
         <div className="team-member">
           <img
             src="/images/ayush.jpeg"
-            alt="Ayush Upadhya"
+            alt="Ayush Upadhyay"
             className="member-photo"
           />
-          <h2>Ayush Upadhya</h2>
+          <h2>Ayush Upadhyay</h2>
           <p>
             Ayush created an user interface including all the pages of the
             website. He also styled the components to make it aligned and looks
