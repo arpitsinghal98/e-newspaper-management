@@ -2,14 +2,12 @@
 import React from "react";
 import "../styles/AboutPage.css";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
 
 const AboutPage = () => {
   const navigate = useNavigate();
 
   return (
     <div className="about-container">
-      <Navbar />
 
       <h1>About Group 3</h1>
       <p id="about_group3">

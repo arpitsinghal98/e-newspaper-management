@@ -1,120 +1,102 @@
-/* Navbar styling */
-.navbar {
+/* HomePage.css */
+
+.main-container {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(to bottom, #f4f6f9, #d7e1ec); /* Soft gradient */
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  background-color: #333;
-  padding: 1rem; /* Reduced padding */
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 1000;
-  left: 0;
-  gap: 1.5rem; /* Adjusted spacing between buttons */
+  justify-content: flex-start;
+  margin: 0;
+  padding: 0;
 }
 
-/* Button styles */
-.nav-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 10rem; /* Reduced width */
-  height: 3rem; /* Reduced height */
-  border-radius: 1.5rem; /* Adjusted border radius */
-  background: linear-gradient(137.48deg, #ffdb3b 10%, #fe53bb 45%, #8f51ea 67%, #0044ff 87%);
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.3s, background 0.5s;
-  font-size: 0.9rem; /* Reduced font size */
-}
-
-.nav-button:hover {
-  transform: scale(1.05);
-}
-
-.nav-button:active {
-  transform: scale(0.95);
-}
-
-/* Hero section */
 .hero-section {
-  margin-top: 16rem; /* Space below the smaller navbar */
-  padding: 2rem;
-  text-align: center;
-  color: black;
-}
-
-.hero-section h1 {
-  font-size: 2.5rem; /* Slightly smaller heading */
-  margin-bottom: 1rem;
-  color: black;
-}
-
-.hero-section p {
-  font-size: 1rem; /* Slightly smaller paragraph */
-  color: #2a2424;
-}
-
-/* Info card container */
-.info-cards {
   display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  margin: 2rem 0;
-  gap: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 1300px;
+  margin-top: 70px;
+  padding: 20px 0;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  height: auto;
 }
 
-/* Individual card styling */
-.card {
-  background-color: #222;
-  padding: 1.5rem; /* Reduced padding */
-  border-radius: 1rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  width: 220px; /* Reduced width */
-  text-align: center;
-  color: #fff;
+.hero-content {
+  flex: 1;
+  padding: 30px;
 }
 
-.card h2 {
-  font-size: 1.3rem; /* Slightly smaller heading */
-  margin-bottom: 0.8rem;
+.hero-content h1 {
+  font-size: 2.5rem;
+  color: #2c3e50; /* Dark blue-gray */
+  margin-bottom: 15px;
 }
 
-.card p {
-  margin-bottom: 0.8rem;
-  font-size: 0.9rem; /* Smaller font size */
-  color: #bbb;
+.hero-content p {
+  font-size: 1.2rem;
+  color: #4e4e4e; /* Soft gray */
+  margin-bottom: 20px;
+  line-height: 1.6;
 }
 
-.card button {
-  background-color: #fe53bb;
+.cta-button {
+  background: linear-gradient(90deg, #3498db, #2ecc71); /* Blue to green gradient */
+  color: white;
   border: none;
-  color: #fff;
-  padding: 0.4rem 0.8rem; /* Reduced padding */
-  border-radius: 0.5rem;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 25px;
   cursor: pointer;
-  font-size: 0.8rem; /* Smaller font size */
-  transition: background-color 0.3s;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.card button:hover {
-  background-color: #8f51ea;
+.cta-button:hover {
+  background: linear-gradient(90deg, #2980b9, #27ae60); /* Darker gradient */
+  transform: translateY(-3px);
 }
 
-.card button:active {
-  background-color: #ffdb3b;
-  transform: scale(0.98);
+.cta-button:active {
+  transform: translateY(0);
 }
 
-/* Responsive design */
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-image img {
+  max-width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  object-fit: cover; 
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-  .info-cards {
+  .hero-section {
     flex-direction: column;
-    align-items: center;
   }
 
-  .card {
-    width: 90%;
+  .hero-content, .hero-image {
+    padding: 15px;
+    text-align: center;
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .cta-button {
+    padding: 10px 15px;
+    font-size: 0.9rem;
   }
 }

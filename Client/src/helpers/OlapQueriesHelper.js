@@ -10,56 +10,6 @@ const OlapQueriesHelper = ({ selectedTable, activeOperation }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // OLAP Queries for different operations
-  // const olapQueries = {
-  //   rollup: `
-  //     SELECT year, quarter, SUM(sales)
-  //     FROM ${selectedTable}
-  //     GROUP BY ROLLUP(year, quarter);
-  //   `,
-  //   cube: `
-  //     SELECT region, year, SUM(sales)
-  //     FROM ${selectedTable}
-  //     GROUP BY CUBE(region, year);
-  //   `,
-  //   rank: `
-  //     SELECT product, sales, RANK() OVER (ORDER BY sales DESC)
-  //     FROM ${selectedTable};
-  //   `,
-  //   denseRank: `
-  //     SELECT product, sales, DENSE_RANK() OVER (ORDER BY sales DESC)
-  //     FROM ${selectedTable};
-  //   `,
-  //   ntile: `
-  //     SELECT product, sales, NTILE(4) OVER (ORDER BY sales DESC)
-  //     FROM ${selectedTable};
-  //   `,
-  //   firstValue: `
-  //     SELECT product, sales, FIRST_VALUE(sales) OVER (ORDER BY sales DESC)
-  //     FROM ${selectedTable};
-  //   `,
-  //   unboundedPreceding: `
-  //     SELECT product, sales, SUM(sales) OVER (ORDER BY sales ROWS UNBOUNDED PRECEDING)
-  //     FROM ${selectedTable};
-  //   `,
-  //   recursive: `
-  //     WITH RECURSIVE category_hierarchy AS (
-  //       SELECT category_id, parent_category_id, category_name
-  //       FROM ${selectedTable}
-  //       WHERE parent_category_id IS NULL
-  //       UNION ALL
-  //       SELECT c.category_id, c.parent_category_id, c.category_name
-  //       FROM ${selectedTable} c
-  //       JOIN category_hierarchy ch ON c.parent_category_id = ch.category_id
-  //     )
-  //     SELECT * FROM category_hierarchy;
-  //   `,
-  //   view: `
-  //     CREATE VIEW ${selectedTable}_view AS
-  //     SELECT * FROM ${selectedTable};
-  //   `,
-  // };
-
   const olapQueries = {
     rollup: `
     SELECT category_id, published_date, SUM(likes)
@@ -130,7 +80,7 @@ const OlapQueriesHelper = ({ selectedTable, activeOperation }) => {
       const response = await executeSqlQuery(query);
       setResults(response.data.results || []);
     } catch (err) {
-      setError("Error executing query.");
+      setError(err.response.data.message);
       console.error(err); // Log detailed error for debugging
     }
     setIsLoading(false);

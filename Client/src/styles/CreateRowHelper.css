@@ -1,116 +1,139 @@
-/* General styles for the form container */
+/* CreateRowHelper.css */
+
 .create-row-form {
-    background: linear-gradient(135deg, #f0f4f8, #e8eff5);
-    border-radius: 12px;
-    padding: 30px;
-    max-width: 700px;
-    margin: 20px auto;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    transition: all 0.3s ease-in-out;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to bottom, #ffffff, #f3f7fa); /* Clean gradient */
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Deep shadow for depth */
+  max-width: 600px;
+  margin: 50px auto;
+  color: #2c3e50; /* Elegant dark blue-gray text */
+  animation: fadeIn 1s ease; /* Entry animation */
+  border: 1px solid #dfe6e9; /* Subtle border for structure */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
     transform: translateY(0);
   }
-  
-  /* Smooth transition for hover or focus */
-  .create-row-form:hover {
-    transform: translateY(-3px);
+}
+
+.create-row-form h3 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #34495e; /* Dark gray-blue */
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #2d3436; /* Neutral text */
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="date"] {
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 1px solid #bdc3c7; /* Light gray border */
+  border-radius: 8px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle inset shadow */
+  transition: all 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
+.form-group input[type="date"]:focus {
+  box-shadow: 0 0 8px #3498db; /* Blue glow on focus */
+  border-color: #3498db; /* Blue border on focus */
+  outline: none;
+}
+
+.form-group input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-top: 5px;
+}
+
+button[type="submit"] {
+  background: linear-gradient(90deg, #6a11cb, #2575fc); /* Purple to blue gradient */
+  color: white;
+  border: none;
+  padding: 15px 20px;
+  border-radius: 25px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Elevated shadow */
+}
+
+button[type="submit"]:hover {
+  background: linear-gradient(90deg, #5b0fbb, #1b6ae4); /* Slightly darker gradient */
+  transform: translateY(-3px); /* Lift effect */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+}
+
+button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+button[type="submit"]:disabled {
+  background: #95a5a6; /* Disabled gray */
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.error-message {
+  color: #e74c3c; /* Red for error messages */
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 15px;
+  animation: shake 0.3s ease; /* Shake animation on error */
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
   }
-  
-  /* Header */
+  25%, 75% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .create-row-form {
+    padding: 20px;
+    margin: 20px auto;
+  }
+
   .create-row-form h3 {
-    font-size: 28px;
-    text-align: center;
-    color: #333;
-    margin-bottom: 25px;
-    font-weight: 600;
-    text-transform: uppercase;
+    font-size: 1.5rem;
   }
-  
-  /* Form groups */
-  .create-row-form .form-group {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
+
+  button[type="submit"] {
+    font-size: 1rem;
   }
-  
-  /* Label styling */
-  .create-row-form label {
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 8px;
-    font-weight: 500;
-  }
-  
-  /* Styling for the input fields */
-  .create-row-form input[type="text"],
-  .create-row-form input[type="number"],
-  .create-row-form input[type="date"],
-  .create-row-form input[type="checkbox"] {
-    width: 100%;
-    padding: 14px;
-    font-size: 16px;
-    background-color: #fff;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    box-sizing: border-box;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  /* Input hover and focus effects */
-  .create-row-form input[type="text"]:hover,
-  .create-row-form input[type="number"]:hover,
-  .create-row-form input[type="date"]:hover {
-    border-color: #007bff;
-  }
-  
-  .create-row-form input[type="text"]:focus,
-  .create-row-form input[type="number"]:focus,
-  .create-row-form input[type="date"]:focus {
-    border-color: #0056b3;
-    outline: none;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
-  }
-  
-  /* Checkbox input style */
-  .create-row-form input[type="checkbox"] {
-    width: auto;
-    margin-right: 12px;
-    vertical-align: middle;
-    transform: scale(1.1);
-  }
-  
-  /* Submit button */
-  .create-row-form button {
-    background-color: #007bff;
-    color: #fff;
-    font-size: 18px;
-    padding: 15px;
-    width: 100%;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  /* Button hover and focus effects */
-  .create-row-form button:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
-  }
-  
-  /* Mobile responsiveness */
-  @media screen and (max-width: 600px) {
-    .create-row-form {
-      padding: 20px;
-      margin: 10px;
-    }
-  
-    .create-row-form h3 {
-      font-size: 24px;
-    }
-  
-    .create-row-form button {
-      font-size: 16px;
-      padding: 12px;
-    }
-  }  
+}

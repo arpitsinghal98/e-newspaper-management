@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { getColumns, getTableData } from "../services/api"; // Import API functions
-import "../styles/ReadTableHelper.css"; // Import the CSS styling
+import { getColumns, getTableData } from "../services/api";
+import "../styles/ReadTableHelper.css";
 
 const ReadTableHelper = ({ selectedTable }) => {
-  const [columns, setColumns] = useState([]); // Store table columns
-  const [rows, setRows] = useState([]); // Store table rows
-  const [loading, setLoading] = useState(false); // Loading state
-  const [error, setError] = useState(""); // Error state
-  const [page, setPage] = useState(1); // Current page
-  const [totalRows, setTotalRows] = useState(0); // Total rows in the table (for pagination)
-  const [rowsPerPage, setRowsPerPage] = useState(10); // Rows per page, default to 10
+  const [columns, setColumns] = useState([]);
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalRows, setTotalRows] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // Fetch columns and rows for the selected table when the component mounts or when the table changes
   useEffect(() => {
@@ -24,15 +24,18 @@ const ReadTableHelper = ({ selectedTable }) => {
           setColumns(columnResponse.data.columns);
 
           // Fetch data (rows) for the selected table with pagination
-          const dataResponse = await getTableData(selectedTable, page, rowsPerPage);
+          const dataResponse = await getTableData(
+            selectedTable,
+            page,
+            rowsPerPage
+          );
 
           // Safely handle the response, focusing on `results` for rows, and `total` for total rows
-          const rowsData = dataResponse?.data?.results || []; // Use `results` instead of `rows`
+          const rowsData = dataResponse?.data?.results || [];
           setRows(rowsData);
 
-          const totalRowsData = dataResponse?.data?.total || 0; // `total` gives the total number of rows
+          const totalRowsData = dataResponse?.data?.total || 0;
           setTotalRows(totalRowsData);
-
         } catch (error) {
           console.error("Error fetching table data:", error);
           setError("Failed to load table data. Please try again.");
@@ -43,26 +46,26 @@ const ReadTableHelper = ({ selectedTable }) => {
     };
 
     fetchTableData();
-  }, [selectedTable, page, rowsPerPage]); // Re-fetch data when table, page, or rowsPerPage changes
+  }, [selectedTable, page, rowsPerPage]);
 
   // Pagination Handlers
   const handlePreviousPage = () => {
     if (page > 1) {
-      setPage(page - 1); // Go to previous page
+      setPage(page - 1);
     }
   };
 
   const handleNextPage = () => {
     const totalPages = Math.ceil(totalRows / rowsPerPage);
     if (page < totalPages) {
-      setPage(page + 1); // Go to next page
+      setPage(page + 1);
     }
   };
 
   // Handle rows per page change
   const handleRowsPerPageChange = (event) => {
-    setRowsPerPage(Number(event.target.value)); // Update rowsPerPage state
-    setPage(1); // Reset to page 1 when rows per page change
+    setRowsPerPage(Number(event.target.value));
+    setPage(1);
   };
 
   return (
@@ -92,25 +95,29 @@ const ReadTableHelper = ({ selectedTable }) => {
             </select>
           </div>
 
-          {/* Table */}
-          <table className="table">
-            <thead>
-              <tr>
-                {columns.map((column) => (
-                  <th key={column.column_name}>{column.column_name}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row, rowIndex) => (
-                <tr key={rowIndex}>
+          {/* Table with Scrollable Container */}
+          <div className="table-container">
+            <table className="table">
+              <thead>
+                <tr>
                   {columns.map((column) => (
-                    <td key={column.column_name}>{row[column.column_name]}</td>
+                    <th key={column.column_name}>{column.column_name}</th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {rows.map((row, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {columns.map((column) => (
+                      <td key={column.column_name}>
+                        {row[column.column_name]}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
           {/* Pagination Controls */}
           <div className="pagination">
